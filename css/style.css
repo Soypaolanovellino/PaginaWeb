@@ -1,0 +1,373 @@
+/* ============================================================
+   style.css — Portafolio Paola Novellino
+   Estética: editorial, minimalista, galería privada.
+
+   Tipografía: Inter (sans neutra). Elegida porque a tamaños
+   pequeños (10–13px) mantiene una legibilidad impecable, tiene
+   un dibujo silencioso que no compite con las imágenes, y su
+   neutralidad refuerza el tono de galería (el contenido es la
+   obra, no la letra). Fallback a la pila de sistema para que
+   el sitio funcione incluso sin conexión a Google Fonts.
+   ============================================================ */
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #ffffff;
+  --ink: #1c1c1c;
+  --muted: #8f8f8f;
+  --hairline: #e8e8e6;
+  --placeholder: #f3f2f0;   /* gris muy claro para imágenes ausentes */
+  --pink: rgba(243, 214, 222, 0.88); /* único acento de color del sitio */
+  --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* ---------- Reset mínimo ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.35s var(--ease);
+}
+a:hover { opacity: 0.45; }
+
+::selection { background: var(--pink); }
+
+/* Etiquetas pequeñas en mayúsculas (nav, títulos, datos) */
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Placeholders de imagen
+   Cada imagen vive dentro de una <figure class="ph">. El fondo
+   gris claro se ve mientras el archivo no exista; cuando la
+   imagen carga (js/site.js añade .is-loaded), aparece con un
+   fundido suave. Así los archivos reales se "enchufan" solos.
+   ============================================================ */
+.ph {
+  position: relative;
+  overflow: hidden;
+  background: var(--placeholder);
+}
+.ph img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+.ph.is-loaded img { opacity: 1; }
+
+/* ============================================================
+   Encabezado fijo (about / work / proyecto)
+   Sin fondo sólido: el contenido pasa por debajo del texto.
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;               /* siempre por encima de las imágenes */
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.6rem 2rem;
+  pointer-events: none;      /* deja pasar el scroll… */
+}
+.site-header a { pointer-events: auto; } /* …pero los links sí se clickean */
+
+.site-header .wordmark {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+.home {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12vh 2rem 9vh;
+  text-align: center;
+}
+
+.home-name {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.home-figure {
+  width: min(400px, 78vw);
+  aspect-ratio: 3 / 4;
+  margin: 6vh 0;
+}
+
+/* crossfade entre varias imágenes del home (si existen) */
+.home-figure img { transition: opacity 1.6s var(--ease); }
+
+.home-nav {
+  display: flex;
+  gap: 4.5rem;
+}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+}
+
+.about-inner {
+  max-width: 340px;
+  text-align: left;
+}
+
+.about-bio {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--ink);
+}
+
+.about-contact {
+  margin-top: 3.5rem;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 11px;
+  color: var(--muted);
+}
+.about-contact a { color: var(--ink); }
+
+.about-back {
+  display: inline-block;
+  margin-top: 4rem;
+  color: var(--muted);
+}
+
+/* ============================================================
+   WORK — scroll horizontal
+   El contenedor usa scroll nativo horizontal con snap:
+   en móvil se recorre con swipe; en desktop js/work.js traduce
+   la rueda vertical en paginación horizontal.
+   ============================================================ */
+.page-work { overflow: hidden; } /* sin scroll vertical del body */
+
+.work-track {
+  display: flex;
+  height: 100dvh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;           /* Firefox: sin barra visible */
+}
+.work-track::-webkit-scrollbar { display: none; }
+
+.work-panel {
+  position: relative;
+  flex: 0 0 100vw;
+  height: 100dvh;
+  scroll-snap-align: start;
+  display: block;
+}
+.work-panel:hover { opacity: 1; } /* anula el fade genérico de <a> */
+
+.work-panel .ph {
+  position: absolute;
+  inset: 0;
+}
+
+/* Overlay rosado con la información del proyecto */
+.work-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 2rem;
+  text-align: center;
+  background: var(--pink);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.work-overlay .project-title {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.work-overlay .project-type { color: rgba(28, 28, 28, 0.65); }
+
+.work-overlay .project-blurb {
+  max-width: 300px;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* hover solo en dispositivos con puntero real */
+@media (hover: hover) {
+  .work-panel:hover .work-overlay { opacity: 1; }
+}
+/* en táctil, el primer tap añade .is-revealed (js/work.js) */
+.work-panel.is-revealed .work-overlay { opacity: 1; }
+
+/* contador discreto 01 / 04 */
+.work-counter {
+  position: fixed;
+  bottom: 1.6rem;
+  left: 2rem;
+  z-index: 10;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+
+/* ============================================================
+   PROYECTO — info a la izquierda, carrete vertical a la derecha
+   ============================================================ */
+.project {
+  display: grid;
+  grid-template-columns: minmax(300px, 38%) 1fr;
+  height: 100dvh;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 3rem 4rem;
+  max-width: 460px;
+}
+
+.project-info h1 {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.project-info .project-type {
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+
+.project-info .project-description {
+  margin-top: 2.2rem;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.project-meta {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 2rem;
+  row-gap: 0.35rem;
+  font-size: 11px;
+}
+.project-meta dt { color: var(--muted); }
+.project-meta dd { margin: 0; }
+
+.project-next {
+  margin-top: 3.5rem;
+  color: var(--muted);
+}
+
+/* Carrete vertical: cada imagen ocupa ~76vh y deja ver los
+   bordes de la anterior y la siguiente (continuidad visual).
+   Las imágenes pasan por debajo del encabezado fijo. */
+.project-carousel {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  padding: 12vh 3rem;
+  scrollbar-width: none;
+}
+.project-carousel::-webkit-scrollbar { display: none; }
+
+.project-carousel .ph {
+  height: 76vh;
+  margin-bottom: 4vh;
+  scroll-snap-align: center;
+}
+.project-carousel .ph:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 767px) {
+  .site-header { padding: 1.2rem 1.3rem; }
+
+  .home { padding: 14vh 1.3rem 10vh; }
+
+  /* Proyecto: en móvil todo fluye en una columna y el scroll
+     es el de la página (el carrete deja de tener scroll propio) */
+  .project {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .project-info {
+    padding: 6rem 1.3rem 0;
+    max-width: none;
+  }
+  .project-carousel {
+    height: auto;
+    overflow: visible;
+    padding: 3rem 1.3rem 5rem;
+  }
+  .project-carousel .ph {
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 1.3rem;
+  }
+
+  .work-counter { left: 1.3rem; }
+}
+
+/* ============================================================
+   Accesibilidad: sin animaciones si el usuario lo pide
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

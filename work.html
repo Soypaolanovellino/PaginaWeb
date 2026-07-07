@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work — Paola Novellino</title>
+  <meta name="description" content="Selected interior design projects by Paola Novellino.">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-work">
+
+  <header class="site-header">
+    <a class="wordmark" href="index.html">Paola Novellino</a>
+    <a class="label" href="about.html">About</a>
+  </header>
+
+  <!-- Los paneles de proyecto se generan desde js/data.js -->
+  <main class="work-track" id="work-track" aria-label="Projects"></main>
+
+  <!-- Indicador discreto de posición -->
+  <div class="work-counter" aria-hidden="true">
+    <span id="work-current">01</span> / <span id="work-total">04</span>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/work.js"></script>
+</body>
+</html>
