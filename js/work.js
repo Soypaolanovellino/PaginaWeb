@@ -97,29 +97,12 @@
   );
 
   /* ---------- Revelado del overlay rosado ----------
-     Cada panel ocupa toda la pantalla, así que el cursor casi
-     siempre está "encima": un :hover puro dejaría la info siempre
-     visible. Por eso, en desktop revelamos con el MOVIMIENTO del
-     cursor y ocultamos cuando se detiene un momento o sale del
-     panel — por defecto se ve solo la imagen. */
-  const hoverCapable = window.matchMedia('(hover: hover)').matches;
-
-  if (hoverCapable) {
-    panels.forEach((panel) => {
-      let idle;
-      const reveal = () => {
-        panel.classList.add('is-revealed');
-        clearTimeout(idle);
-        idle = setTimeout(() => panel.classList.remove('is-revealed'), 2500);
-      };
-      panel.addEventListener('mousemove', reveal);
-      panel.addEventListener('mouseleave', () => {
-        clearTimeout(idle);
-        panel.classList.remove('is-revealed');
-      });
-    });
-  } else {
-    /* Táctil: primer tap revela, segundo tap navega. */
+     El recuadro es pequeño y centrado, así que en desktop basta el
+     :hover real SOBRE el cuadro (lo maneja el CSS: .work-overlay:hover);
+     sobre el blanco de alrededor se ve solo la imagen. Aquí solo hace
+     falta la lógica táctil: primer tap revela, segundo tap navega. */
+  const touchOnly = window.matchMedia('(hover: none)').matches;
+  if (touchOnly) {
     panels.forEach((panel) => {
       panel.addEventListener('click', (e) => {
         if (!panel.classList.contains('is-revealed')) {

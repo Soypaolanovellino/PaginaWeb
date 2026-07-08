@@ -297,15 +297,15 @@ a:hover { opacity: 0.45; }
 .work-overlay > *:nth-child(2) { transition-delay: 0.05s; }
 .work-overlay > *:nth-child(3) { transition-delay: 0.1s; }
 
-/* El overlay se muestra SOLO con intención, nunca por defecto.
-   Como los paneles ocupan toda la pantalla, un ":hover" puro
-   estaría casi siempre activo (el cursor siempre está encima),
-   así que el revelado en desktop lo controla js/work.js con el
-   MOVIMIENTO del cursor (clase .is-revealed) y se oculta al
-   detenerse o salir. En táctil, el primer tap revela. Con teclado,
-   al enfocar el panel (:focus-within). */
+/* El overlay se muestra SOLO al pasar el cursor por ENCIMA del
+   recuadro (el overlay ocupa exactamente esa caja, aunque esté a
+   opacity:0 sigue recibiendo el hover). Sobre el blanco de alrededor
+   no se activa: se ve solo la imagen. En táctil, el primer tap
+   (.is-revealed); con teclado, al enfocar (:focus-within). */
+.work-overlay:hover,
 .work-panel.is-revealed .work-overlay,
 .work-panel:focus-within .work-overlay { opacity: 1; }
+.work-overlay:hover > *,
 .work-panel.is-revealed .work-overlay > *,
 .work-panel:focus-within .work-overlay > * { opacity: 1; transform: translateY(0); }
 
