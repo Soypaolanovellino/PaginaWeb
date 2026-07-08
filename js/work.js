@@ -96,9 +96,30 @@
     { passive: true }
   );
 
-  /* ---------- Táctil: tap 1 = overlay, tap 2 = navegar ---------- */
-  const touchOnly = window.matchMedia('(hover: none)').matches;
-  if (touchOnly) {
+  /* ---------- Revelado del overlay rosado ----------
+     Cada panel ocupa toda la pantalla, así que el cursor casi
+     siempre está "encima": un :hover puro dejaría la info siempre
+     visible. Por eso, en desktop revelamos con el MOVIMIENTO del
+     cursor y ocultamos cuando se detiene un momento o sale del
+     panel — por defecto se ve solo la imagen. */
+  const hoverCapable = window.matchMedia('(hover: hover)').matches;
+
+  if (hoverCapable) {
+    panels.forEach((panel) => {
+      let idle;
+      const reveal = () => {
+        panel.classList.add('is-revealed');
+        clearTimeout(idle);
+        idle = setTimeout(() => panel.classList.remove('is-revealed'), 2500);
+      };
+      panel.addEventListener('mousemove', reveal);
+      panel.addEventListener('mouseleave', () => {
+        clearTimeout(idle);
+        panel.classList.remove('is-revealed');
+      });
+    });
+  } else {
+    /* Táctil: primer tap revela, segundo tap navega. */
     panels.forEach((panel) => {
       panel.addEventListener('click', (e) => {
         if (!panel.classList.contains('is-revealed')) {

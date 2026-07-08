@@ -8,6 +8,6 @@
     "optimize": "node scripts/optimize-images.js"
   },
   "devDependencies": {
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.5"
   }
 }
