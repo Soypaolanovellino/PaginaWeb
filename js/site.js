@@ -47,33 +47,18 @@ function hydrateImages(root) {
     imgs.push(img);
   });
 
-  // Con una sola imagen no hay slideshow: nada más que hacer.
-  if (imgs.length < 2) return;
+  // Con una sola imagen no hay carrusel; con reduced-motion tampoco
+  // se anima (queda fija la primera imagen).
+  if (imgs.length < 2 || reduced) return;
 
-  function show(i) {
-    if (i === current) return;
+  // Carrusel automático: las imágenes van pasando solas dentro del
+  // recuadro, sin botones ni controles. Cada N segundos avanza a la
+  // siguiente (fundido + leve deslizamiento, definidos en el CSS).
+  setInterval(() => {
     imgs[current].classList.remove('is-current');
-    imgs[i].classList.add('is-current');
-    current = i;
-  }
-  function advance(dir) {
-    show((current + dir + imgs.length) % imgs.length);
-  }
-
-  let timer;
-  function restart() {
-    clearInterval(timer);
-    if (!reduced) timer = setInterval(() => advance(1), 5500);
-  }
-
-  figure.style.cursor = 'pointer';
-  figure.addEventListener('click', () => { advance(1); restart(); });
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') { advance(1); restart(); }
-    if (e.key === 'ArrowLeft') { advance(-1); restart(); }
-  });
-
-  restart();
+    current = (current + 1) % imgs.length;
+    imgs[current].classList.add('is-current');
+  }, 4500);
 })();
 
 hydrateImages();

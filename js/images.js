@@ -7,7 +7,13 @@
    ============================================================ */
 
 const IMAGES = {
-  "home": [],
+  "home": [
+    "images/home/01.jpg",
+    "images/home/02.jpg",
+    "images/home/03.jpg",
+    "images/home/04.jpg",
+    "images/home/05.jpg"
+  ],
   "nu": [
     "images/nu/IMG_0570.jpg",
     "images/nu/IMG_0578.jpg",
