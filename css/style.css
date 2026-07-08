@@ -195,9 +195,15 @@ a:hover { opacity: 0.45; }
 }
 .about-contact a { color: var(--ink); }
 
-.about-back {
-  display: inline-block;
-  margin-top: 4rem;
+/* "X" discreta arriba a la derecha: cierra el About y vuelve al home.
+   En el mismo gris de la navegación, pequeña y silenciosa. */
+.about-close {
+  position: fixed;
+  top: 1.4rem;
+  right: 2rem;
+  z-index: 10;
+  font-size: 20px;
+  line-height: 1;
   color: var(--muted);
 }
 
@@ -383,6 +389,8 @@ a:hover { opacity: 0.45; }
    ============================================================ */
 @media (max-width: 767px) {
   .site-header { padding: 1.2rem 1.3rem; }
+
+  .about-close { top: 1.1rem; right: 1.3rem; }
 
   .home { padding: 14vh 1.3rem 10vh; }
 
