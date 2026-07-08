@@ -1,0 +1,13 @@
+{
+  "name": "paola-novellino-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portafolio de Paola Novellino — sitio estatico (HTML/CSS/JS vanilla).",
+  "scripts": {
+    "manifest": "node scripts/build-manifest.js",
+    "optimize": "node scripts/optimize-images.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.0"
+  }
+}

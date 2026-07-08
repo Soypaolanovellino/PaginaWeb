@@ -10,3 +10,6 @@ desktop.ini
 # Dependencias / deploy
 node_modules/
 .vercel/
+
+# Originales pesados de fotos (se procesan a images/ con sharp)
+images-raw/

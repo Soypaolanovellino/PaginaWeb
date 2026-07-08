@@ -17,12 +17,15 @@
     panel.className = 'work-panel';
     panel.href = 'project.html?p=' + p.slug;
     panel.setAttribute('aria-label', p.title + ' — ' + p.type);
+    // Si aún no hay portada en la carpeta, se omite el <img> y queda
+    // el bloque gris del placeholder (.ph) — sin icono de imagen rota.
+    const cover = p.cover ? '<img src="' + p.cover + '" alt="" loading="lazy">' : '';
     panel.innerHTML =
-      '<figure class="ph"><img src="' + p.cover + '" alt="" loading="lazy"></figure>' +
+      '<figure class="ph">' + cover + '</figure>' +
       '<div class="work-overlay">' +
       '  <span class="project-title">' + p.title + '</span>' +
       '  <span class="project-type label">' + p.type + '</span>' +
-      '  <p class="project-blurb">' + p.blurb + '</p>' +
+      '  <p class="project-blurb">' + p.tagline + '</p>' +
       '</div>';
     track.appendChild(panel);
   });
