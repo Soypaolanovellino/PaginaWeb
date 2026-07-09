@@ -2,12 +2,26 @@
    style.css — Portafolio Paola Novellino
    Estética: editorial, minimalista, galería privada.
 
-   Tipografía: Inter (sans neutra). Elegida porque a tamaños
-   pequeños (10–13px) mantiene una legibilidad impecable, tiene
-   un dibujo silencioso que no compite con las imágenes, y su
-   neutralidad refuerza el tono de galería (el contenido es la
-   obra, no la letra). Fallback a la pila de sistema para que
-   el sitio funcione incluso sin conexión a Google Fonts.
+   Dos familias tipográficas (planos de Paola, PAGINA_WEB_MEDIDAS.pdf):
+   - Fuente script/caligráfica → SOLO el nombre "Paola Novellino".
+   - Times New Roman (fuente de sistema) → todo lo demás.
+   Ambas se definen como variables (--font-script / --font-serif) y se
+   usan en todo el sitio; nada de nombres de fuente sueltos.
+   ============================================================ */
+
+/* ============================================================
+   FUENTE SCRIPT — PENDIENTE DE LICENCIA
+   Original especificada por Paola: "Ladysuettaya" (comercial).
+   Sustituto temporal: Pinyon Script (Google Fonts, libre).
+   Por qué Pinyon Script: es una caligrafía formal "roundhand" (tipo
+   firma), la que mejor evoca el carácter elegante y manuscrito de
+   Ladysuettaya entre las opciones libres, y se mantiene legible para
+   un nombre. (Alternativas descartadas: Italianno, más fina; Cormorant
+   itálica, más editorial y menos script.)
+   Para cambiarla cuando se tenga el archivo licenciado:
+     1) Colocar el .woff2 en assets/fonts/
+     2) Declarar @font-face con family "Ladysuettaya"
+     3) Cambiar SOLO el valor de --font-script aquí abajo
    ============================================================ */
 
 /* ---------- Tokens ---------- */
@@ -18,7 +32,11 @@
   --hairline: #e8e8e6;
   --placeholder: #f3f2f0;   /* gris muy claro para imágenes ausentes */
   --pink: #FEF7FA; /* único acento de color; opaco (spec de Paola) */
-  --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Familias tipográficas (ver comentario de arriba) */
+  --font-script: 'Pinyon Script', 'Segoe Script', cursive;
+  --font-serif: 'Times New Roman', Times, serif;
+
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   /* Tamaño del recuadro de imagen del home; Work usa el mismo. */
   --figure-w: min(400px, 78vw);
@@ -31,11 +49,11 @@
 html { -webkit-text-size-adjust: 100%; }
 
 body {
-  font-family: var(--font);
-  font-size: 12px;
+  font-family: var(--font-serif);   /* Times New Roman en todo el sitio */
+  font-size: 13px;                   /* texto base ~16pt del plano */
   font-weight: 400;
   line-height: 1.7;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -107,17 +125,24 @@ a:hover { opacity: 0.45; }
 .site-header .nav-right { justify-self: end; }
 .site-header .wordmark  { justify-self: center; text-align: center; }
 
-/* El nombre "Paola Novellino" va en cursiva editorial (Cormorant
-   Garamond, itálica) en TODAS las páginas, con el mismo tamaño y
-   tratamiento. WORK y ABOUT se mantienen en la sans pequeña en
+/* WORK y ABOUT en Times, ref. 18 pt del plano (algo mayor que el
+   texto base). Mantienen mayúsculas y tracking de la clase .label. */
+.site-header .nav-left,
+.site-header .nav-right { font-size: 14px; }
+
+/* El nombre "Paola Novellino" va en la fuente script (--font-script)
+   en TODAS las páginas, con el mismo tamaño y tratamiento. Es el
+   elemento más grande del plano (ref. 67,28 pt); se lleva a un tamaño
+   web razonable (~40px) manteniéndolo como el mayor, sin romper la
+   estética editorial. WORK y ABOUT se quedan en Times, pequeñas y en
    mayúsculas (clase .label). */
 .site-header .wordmark {
-  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 21px;
+  font-family: var(--font-script);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
   line-height: 1;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;   /* los scripts no llevan tracking (rompe el trazo) */
   text-transform: none;
   color: var(--ink);
 }
@@ -196,7 +221,7 @@ a:hover { opacity: 0.45; }
 }
 
 .about-bio {
-  font-size: 12px;
+  font-size: 13px;   /* Times, ref. 16 pt */
   line-height: 1.9;
   color: var(--ink);
 }
@@ -206,7 +231,7 @@ a:hover { opacity: 0.45; }
   list-style: none;
   display: grid;
   gap: 0.5rem;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
 }
 .about-contact a { color: var(--ink); }
@@ -285,9 +310,9 @@ a:hover { opacity: 0.45; }
 }
 
 .work-overlay .project-title {
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
+  font-size: 20px;            /* Times, ref. 25 pt */
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -308,11 +333,19 @@ a:hover { opacity: 0.45; }
 .work-overlay .project-title::after,
 .project-info h1::after { margin-left: 0.65em; }
 
-.work-overlay .project-type { color: rgba(28, 28, 28, 0.65); }
+.work-overlay .project-type {
+  font-size: 13px;           /* Times, ref. 16 pt */
+  color: rgba(28, 28, 28, 0.65);
+}
 
+/* Tagline del overlay en Times itálica (ref. 16 pt).
+   VERIFICAR CON PAOLA: ¿tagline en script o en Times itálica? El plano
+   lo etiqueta "Ladysuettaya, 16pt", pero en la maqueta se ve en serif
+   tipo Times; probablemente un error de la maqueta. */
 .work-overlay .project-blurb {
   max-width: 300px;
-  font-size: 11px;
+  font-size: 13px;
+  font-style: italic;
   line-height: 1.8;
 }
 
@@ -368,20 +401,21 @@ a:hover { opacity: 0.45; }
 }
 
 .project-info h1 {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.3em;
+  font-size: 20px;           /* Times, ref. 25 pt (igual que el overlay) */
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .project-info .project-type {
   margin-top: 0.4rem;
+  font-size: 13px;           /* Times, ref. 16 pt */
   color: var(--muted);
 }
 
 .project-info .project-tagline {
   margin-top: 1.6rem;
-  font-size: 12px;
+  font-size: 13px;           /* Times itálica, ref. 16 pt */
   font-style: italic;
   line-height: 1.7;
   color: var(--ink);
@@ -389,7 +423,7 @@ a:hover { opacity: 0.45; }
 
 .project-info .project-description {
   margin-top: 2.2rem;
-  font-size: 12px;
+  font-size: 13px;           /* Times, ref. 16 pt */
   line-height: 1.9;
 }
 .project-info .project-description p + p { margin-top: 1.1rem; }
@@ -400,9 +434,9 @@ a:hover { opacity: 0.45; }
   grid-template-columns: auto 1fr;
   column-gap: 2rem;
   row-gap: 0.35rem;
-  font-size: 11px;
+  font-size: 13px;           /* Times, ref. 16 pt */
 }
-.project-meta dt { color: var(--muted); }
+.project-meta dt { color: var(--muted); font-size: 13px; }
 .project-meta dd { margin: 0; }
 
 .project-next {
