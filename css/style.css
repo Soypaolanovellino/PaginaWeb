@@ -176,7 +176,9 @@ a:hover { opacity: 0.45; }
    los tres elementos alineados en una fila limpia. */
 .page-home .site-header {
   align-items: center;
-  padding-top: 5.5rem;
+  /* top: separado del tope; laterales: WORK y ABOUT un poco más
+     hacia el centro (el nombre sigue centrado por el grid). */
+  padding: 5.5rem 4rem 1.6rem;
 }
 
 /* ============================================================
