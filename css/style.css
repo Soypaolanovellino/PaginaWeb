@@ -17,7 +17,7 @@
   --muted: #8f8f8f;
   --hairline: #e8e8e6;
   --placeholder: #f3f2f0;   /* gris muy claro para imágenes ausentes */
-  --pink: rgba(243, 214, 222, 0.88); /* único acento de color del sitio */
+  --pink: #FEF7FA; /* único acento de color; opaco (spec de Paola) */
   --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   /* Tamaño del recuadro de imagen del home; Work usa el mismo. */
@@ -290,6 +290,23 @@ a:hover { opacity: 0.45; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
 }
+
+/* Nombre del proyecto con barras: "|  Nombre  |". Se añade por CSS
+   para no meter las barras en el campo `title` de data.js (que se usa
+   también en el enlace "Next —"). Se aplica igual en el overlay de
+   Work y en el título de la página de proyecto, como en el PDF de
+   diseño de Paola. */
+.work-overlay .project-title::before,
+.work-overlay .project-title::after,
+.project-info h1::before,
+.project-info h1::after {
+  content: "|";
+  font-weight: 400;
+}
+.work-overlay .project-title::before,
+.project-info h1::before { margin-right: 0.65em; }
+.work-overlay .project-title::after,
+.project-info h1::after { margin-left: 0.65em; }
 
 .work-overlay .project-type { color: rgba(28, 28, 28, 0.65); }
 
