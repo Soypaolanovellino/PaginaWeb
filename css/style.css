@@ -171,12 +171,12 @@ a:hover { opacity: 0.45; }
   color: var(--ink);
 }
 
-/* Home: WORK y ABOUT bajan un poco (más aire respecto al tope y al
-   nombre). El nombre "Paola Novellino" se queda en su sitio. */
-.page-home .site-header { align-items: start; }
-.page-home .site-header .nav-left,
-.page-home .site-header .nav-right {
-  margin-top: 1.5rem;
+/* Home: todo el encabezado (WORK · Paola Novellino · ABOUT) baja en
+   conjunto, separándose del tope y quedando más hacia el centro, con
+   los tres elementos alineados en una fila limpia. */
+.page-home .site-header {
+  align-items: center;
+  padding-top: 5.5rem;
 }
 
 /* ============================================================
