@@ -82,16 +82,25 @@
     if (e.key === 'ArrowLeft') goTo(index - 1);
   });
 
-  /* Mantiene el índice sincronizado cuando se hace swipe táctil */
+  /* Al detenerse el scroll (swipe/inercia en móvil o cualquier
+     desplazamiento nativo), alinea SIEMPRE al proyecto más cercano:
+     nunca queda a mitad de camino entre dos. Complementa al
+     scroll-snap mandatory del CSS. */
   let scrollTimer;
   track.addEventListener(
     'scroll',
     () => {
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(() => {
-        index = Math.round(track.scrollLeft / track.clientWidth);
-        updateCounter();
-      }, 100);
+        const nearest = Math.round(track.scrollLeft / track.clientWidth);
+        const target = nearest * track.clientWidth;
+        if (Math.abs(track.scrollLeft - target) > 1) {
+          goTo(nearest); // reencuadra al proyecto completo
+        } else {
+          index = nearest;
+          updateCounter();
+        }
+      }, 120);
     },
     { passive: true }
   );

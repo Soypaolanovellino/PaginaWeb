@@ -122,19 +122,32 @@ a:hover { opacity: 0.45; }
   color: var(--ink);
 }
 
-/* Cuando el encabezado se superpone a imágenes a sangre (Work y
-   Proyecto), se funde con lo que pasa por debajo: texto blanco +
-   mix-blend-mode:difference queda SIEMPRE legible, sea la foto
-   clara u oscura, sin necesidad de un fondo sólido. Técnica vista
-   en re-pull.com, adaptada aquí en monocromo y sin estridencias.
-   En About (fondo blanco) se conserva el texto oscuro normal. */
-.page-work .site-header,
+/* En Proyecto, las imágenes a sangre del carrete pasan por debajo
+   del encabezado: allí se funde (texto blanco + mix-blend-mode)
+   para quedar legible sobre cualquier foto. Técnica vista en
+   re-pull.com, adaptada en monocromo.
+   En Work NO se usa blend: el recuadro va centrado con blanco
+   alrededor, así que el header queda sobre fondo claro y su texto
+   debe permanecer SIEMPRE negro sólido, con color y opacidad
+   constantes, sin cambiar con el scroll. */
 .page-project .site-header {
   mix-blend-mode: difference;
 }
-.page-work .site-header a,
 .page-project .site-header a {
   color: #fff;
+}
+/* Work: texto del header en negro sólido, invariable con el scroll. */
+.page-work .site-header a,
+.page-work .site-header .wordmark {
+  color: var(--ink);
+}
+
+/* Home: WORK y ABOUT bajan un poco (más aire respecto al tope y al
+   nombre). El nombre "Paola Novellino" se queda en su sitio. */
+.page-home .site-header { align-items: start; }
+.page-home .site-header .nav-left,
+.page-home .site-header .nav-right {
+  margin-top: 1.5rem;
 }
 
 /* ============================================================
@@ -179,7 +192,7 @@ a:hover { opacity: 0.45; }
 
 .about-inner {
   max-width: 340px;
-  text-align: left;
+  text-align: center;   /* bloque equilibrado y centrado */
 }
 
 .about-bio {
