@@ -10,19 +10,23 @@
    ============================================================ */
 
 /* ============================================================
-   FUENTE SCRIPT — PENDIENTE DE LICENCIA
-   Original especificada por Paola: "Ladysuettaya" (comercial).
-   Sustituto temporal: Pinyon Script (Google Fonts, libre).
-   Por qué Pinyon Script: es una caligrafía formal "roundhand" (tipo
-   firma), la que mejor evoca el carácter elegante y manuscrito de
-   Ladysuettaya entre las opciones libres, y se mantiene legible para
-   un nombre. (Alternativas descartadas: Italianno, más fina; Cormorant
-   itálica, más editorial y menos script.)
-   Para cambiarla cuando se tenga el archivo licenciado:
-     1) Colocar el .woff2 en assets/fonts/
-     2) Declarar @font-face con family "Ladysuettaya"
-     3) Cambiar SOLO el valor de --font-script aquí abajo
+   FUENTE SCRIPT — Lady Suettaya (auto-alojada)
+   Fuente original de los planos de Paola, servida desde /fonts
+   (woff2 + woff). Su uso en web queda bajo la licencia de Paola
+   (confirmado por el cliente). El nombre de la familia es
+   "Lady Suettaya" (con espacio).
+   Sustituto libre anterior: Pinyon Script (Google Fonts). Para
+   volver a él, cambiar SOLO el valor de --font-script aquí abajo
+   (y reponer el <link> de Google Fonts en los HTML).
    ============================================================ */
+@font-face {
+  font-family: 'Lady Suettaya';
+  src: url('../fonts/LadySuettaya.woff2') format('woff2'),
+       url('../fonts/LadySuettaya.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ---------- Tokens ---------- */
 :root {
@@ -34,7 +38,7 @@
   --pink: #FEF7FA; /* único acento de color; opaco (spec de Paola) */
 
   /* Familias tipográficas (ver comentario de arriba) */
-  --font-script: 'Pinyon Script', 'Segoe Script', cursive;
+  --font-script: 'Lady Suettaya', 'Segoe Script', cursive;
   --font-serif: 'Times New Roman', Times, serif;
 
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
