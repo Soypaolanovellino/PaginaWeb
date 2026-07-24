@@ -69,16 +69,60 @@
   }
   hydrateImages(carouselEl);
 
-  /* En desktop el carrete tiene su propio scroll; reenviamos la
-     rueda cuando el cursor está sobre la columna de texto para
-     que toda la página "recorra" las imágenes. */
+  /* En desktop el carrete tiene su propio scroll (con snap del CSS).
+     Cuando la rueda ocurre SOBRE el carrete no intervenimos: scroll
+     nativo + snap mandatory alinean solos. Cuando ocurre sobre la
+     columna de texto, PAGINAMOS el carrete a la figura siguiente o
+     anterior usando su offset REAL (offsetTop), que coincide con el
+     punto de snap. OJO: antes aquí se hacía scrollTop += deltaY
+     (scroll manual crudo), que dejaba el carrete en posiciones
+     intermedias peleando con el snap — no reintroducir (lección de
+     correcciones 07). */
   const desktop = window.matchMedia('(min-width: 768px)');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const figures = Array.from(carouselEl.children);
+
+  /* scrollTop que deja la figura centrada en el carrete: es el mismo
+     punto al que lleva el snap de CSS (scroll-snap-align: center). */
+  function centeredTop(fig) {
+    return fig.offsetTop - (carouselEl.clientHeight - fig.clientHeight) / 2;
+  }
+
+  /* Figura más cercana al encuadre actual. */
+  function nearestFigure() {
+    let best = 0;
+    let bestDist = Infinity;
+    figures.forEach((fig, n) => {
+      const dist = Math.abs(centeredTop(fig) - carouselEl.scrollTop);
+      if (dist < bestDist) { bestDist = dist; best = n; }
+    });
+    return best;
+  }
+
+  let accumulated = 0;
+  let lockUntil = 0; // evita saltar varias fotos por un solo gesto
+
   window.addEventListener(
     'wheel',
     (e) => {
       if (!desktop.matches) return;
-      if (carouselEl.contains(e.target)) return; // scroll nativo
-      carouselEl.scrollTop += e.deltaY;
+      if (carouselEl.contains(e.target)) return; // scroll nativo + snap CSS
+      const now = Date.now();
+      if (now < lockUntil) return;
+
+      accumulated += e.deltaY;
+      if (Math.abs(accumulated) > 40) {
+        const target = Math.max(
+          0,
+          Math.min(figures.length - 1, nearestFigure() + (accumulated > 0 ? 1 : -1))
+        );
+        carouselEl.scrollTo({
+          top: centeredTop(figures[target]),
+          behavior: reduced ? 'auto' : 'smooth',
+        });
+        accumulated = 0;
+        lockUntil = now + 600;
+      }
     },
     { passive: true }
   );

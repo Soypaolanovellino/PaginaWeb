@@ -471,11 +471,15 @@ a:hover { opacity: 0.45; }
 
 /* Carrete vertical: cada imagen ocupa ~76vh y deja ver los
    bordes de la anterior y la siguiente (continuidad visual).
-   Las imágenes pasan por debajo del encabezado fijo. */
+   Las imágenes pasan por debajo del encabezado fijo.
+   El snap es MANDATORY (no proximity): al detener el scroll la
+   imagen queda siempre completa y centrada, nunca partida. La
+   alineación la hace SOLO el CSS — el JS no re-scrollea (lección
+   de correcciones 07). */
 .project-carousel {
   height: 100dvh;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
+  overflow-y: auto;                /* este es el contenedor que scrollea */
+  scroll-snap-type: y mandatory;
   padding: 12vh 3rem;
   scrollbar-width: none;
 }
@@ -484,7 +488,8 @@ a:hover { opacity: 0.45; }
 .project-carousel .ph {
   height: 76vh;
   margin-bottom: 4vh;
-  scroll-snap-align: center;
+  scroll-snap-align: center;       /* centrada, con bordes vecinos visibles */
+  scroll-snap-stop: always;        /* un gesto rápido no salta varias fotos */
 }
 .project-carousel .ph:last-child { margin-bottom: 0; }
 
