@@ -500,27 +500,29 @@ a:hover { opacity: 0.45; }
    Responsive
    ============================================================ */
 @media (max-width: 767px) {
-  /* ---------- Header móvil (correcciones 09) ----------
+  /* ---------- Header móvil (correcciones 09 + 10) ----------
      - WORK y ABOUT alineados con los BORDES del recuadro de imagen:
        el padding lateral es exactamente el blanco que deja el
        recuadro centrado de --figure-w, en todas las páginas (el
        header es compartido).
-     - "Paola Novellino" centrado y SIEMPRE en una sola línea: la
-       fuente script mide ~5.8em para el nombre completo, y el hueco
-       central a 360px de ancho es ~150px → clamp con tope 26px
-       (nunca se parte ni se corta, verificado desde 320px). */
+     - Padding superior amplio: el bloque completo baja y respira,
+       separado del borde de la pantalla (correcciones 10).
+     - "Paola Novellino" a ~30px (ref. 24,3pt de los PDFs móviles),
+       centrado; PUEDE partirse en dos líneas ("Paola / Novellino"),
+       es intencional. line-height algo mayor para que los trazos de
+       la script no se toquen al partirse. */
   .site-header,
   .page-home .site-header {
-    padding: 1.2rem calc((100% - var(--figure-w)) / 2);
+    padding: 2.6rem calc((100% - var(--figure-w)) / 2) 1.2rem;
   }
   .site-header .wordmark {
-    font-size: clamp(19px, 6.4vw, 26px);
-    white-space: nowrap;
+    font-size: 30px;
+    line-height: 1.15;
   }
-  /* WORK/ABOUT ref. 10pt de los PDFs móviles → 13px (escala ×1.29,
-     la misma proporción usada en el resto de tamaños móviles). */
+  /* WORK/ABOUT discretos, ref. 10pt de los PDFs móviles → 10px
+     (mismo cuerpo que la clase .label base). */
   .site-header .nav-left,
-  .site-header .nav-right { font-size: 13px; }
+  .site-header .nav-right { font-size: 10px; }
 
   .about-close { top: 1.1rem; right: 1.3rem; }
 
@@ -533,7 +535,8 @@ a:hover { opacity: 0.45; }
     height: auto;
   }
   .project-info {
-    padding: 6rem 1.3rem 0;
+    /* 9rem: despeje del header fijo móvil (más alto desde corr. 10) */
+    padding: 9rem 1.3rem 0;
     max-width: none;
   }
   .project-carousel {
@@ -562,7 +565,9 @@ a:hover { opacity: 0.45; }
     height: auto;
     overflow: visible;
     scroll-snap-type: none;
-    padding: 6.5rem 0 4rem;        /* deja libre el header fijo */
+    /* despeje del header fijo, que ahora es más alto (padding
+       superior amplio + nombre que puede ir en dos líneas) */
+    padding: 9rem 0 4rem;
   }
 
   .work-panel {
