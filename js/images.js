@@ -30,7 +30,9 @@ const IMAGES = {
     "images/home/Tezza-8013.jpg"
   ],
   "nu": [],
-  "cardinal": [],
   "yellow-butterflies": [],
-  "harmonia": []
+  "cardinal": [],
+  "harmonia": [],
+  "allegra": [],
+  "dos-son-multitud": []
 };

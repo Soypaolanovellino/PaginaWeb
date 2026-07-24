@@ -19,7 +19,15 @@ const IMAGES_DIR = path.join(ROOT, 'images');
 const OUTPUT = path.join(ROOT, 'js', 'images.js');
 
 // Carpetas que consume el sitio (claves del manifiesto).
-const FOLDERS = ['home', 'nu', 'cardinal', 'yellow-butterflies', 'harmonia'];
+const FOLDERS = [
+  'home',
+  'nu',
+  'yellow-butterflies', // el proyecto se llama "Yellow Butterfly"; slug histórico
+  'cardinal',
+  'harmonia',
+  'allegra',
+  'dos-son-multitud',
+];
 
 // Carpeta temporal que NO se publica en el sitio.
 const IGNORED = ['_sin-asignar'];

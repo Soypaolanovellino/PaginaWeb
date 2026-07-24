@@ -255,12 +255,14 @@ a:hover { opacity: 0.45; }
 }
 
 /* ============================================================
-   WORK — scroll horizontal
-   El contenedor usa scroll nativo horizontal con snap:
-   en móvil se recorre con swipe; en desktop js/work.js traduce
-   la rueda vertical en paginación horizontal.
+   WORK — scroll horizontal (SOLO desktop)
+   El contenedor (.work-track) es el elemento que scrollea y lleva
+   el scroll-snap; js/work.js traduce la rueda vertical en
+   paginación horizontal. En móvil (<768px) todo esto se anula:
+   lista vertical con el scroll normal de la página (ver la media
+   query de abajo).
    ============================================================ */
-.page-work { overflow: hidden; } /* sin scroll vertical del body */
+.page-work { overflow: hidden; } /* sin scroll vertical del body (desktop) */
 
 .work-track {
   display: flex;
@@ -277,6 +279,7 @@ a:hover { opacity: 0.45; }
   flex: 0 0 100vw;               /* cada proyecto = una unidad de scroll */
   height: 100dvh;
   scroll-snap-align: start;
+  scroll-snap-stop: always;      /* un gesto rápido no salta varios proyectos */
   /* El recuadro va centrado en medio de la pantalla, con amplio
      espacio en blanco alrededor (NO a sangre). */
   display: flex;
@@ -294,7 +297,10 @@ a:hover { opacity: 0.45; }
 
 /* Overlay rosado con la información del proyecto.
    Cubre exactamente el recuadro de la imagen (centrado, mismo
-   tamaño y proporción), no toda la pantalla. */
+   tamaño y proporción), no toda la pantalla. El conjunto
+   nombre → tipo → tagline va centrado (vertical y horizontal)
+   dentro del recuadro y con aire entre los tres bloques
+   (PDFs correcciones 07). */
 .work-overlay {
   position: absolute;
   top: 50%;
@@ -307,7 +313,7 @@ a:hover { opacity: 0.45; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.9rem;
+  gap: 1.5rem;               /* separación clara entre los bloques */
   padding: 2rem;
   text-align: center;
   background: var(--pink);
@@ -315,12 +321,24 @@ a:hover { opacity: 0.45; }
   transition: opacity 0.5s var(--ease);
 }
 
+/* Tamaños según los PDFs 07 (nombre 14pt · tipo 10pt · tagline 7,6pt),
+   llevados a escala web manteniendo las proporciones: 20 / 14 / 11 px. */
 .work-overlay .project-title {
-  font-size: 20px;            /* Times, ref. 25 pt */
+  font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+
+/* Subtítulo opcional bajo el nombre (p. ej. "two are multitude"). */
+.work-overlay .project-subtitle,
+.project-info .project-subtitle {
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(28, 28, 28, 0.65);
+}
+.work-overlay .project-subtitle { margin-top: -1rem; } /* pegado al nombre */
+.project-info .project-subtitle { margin-top: 0.2rem; }
 
 /* Nombre del proyecto con barras: "|  Nombre  |". Se añade por CSS
    para no meter las barras en el campo `title` de data.js (que se usa
@@ -340,7 +358,7 @@ a:hover { opacity: 0.45; }
 .project-info h1::after { margin-left: 0.65em; }
 
 .work-overlay .project-type {
-  font-size: 13px;           /* Times, ref. 16 pt */
+  font-size: 14px;           /* prop. 10pt frente al nombre de 14pt */
   color: rgba(28, 28, 28, 0.65);
 }
 
@@ -350,7 +368,7 @@ a:hover { opacity: 0.45; }
    tipo Times; probablemente un error de la maqueta. */
 .work-overlay .project-blurb {
   max-width: 300px;
-  font-size: 13px;
+  font-size: 11px;           /* prop. 7,6pt frente al nombre de 14pt */
   font-style: italic;
   line-height: 1.8;
 }
@@ -365,6 +383,7 @@ a:hover { opacity: 0.45; }
 }
 .work-overlay > *:nth-child(2) { transition-delay: 0.05s; }
 .work-overlay > *:nth-child(3) { transition-delay: 0.1s; }
+.work-overlay > *:nth-child(4) { transition-delay: 0.15s; } /* con subtítulo */
 
 /* El overlay se muestra SOLO al pasar el cursor por ENCIMA del
    recuadro (el overlay ocupa exactamente esa caja, aunque esté a
@@ -452,11 +471,15 @@ a:hover { opacity: 0.45; }
 
 /* Carrete vertical: cada imagen ocupa ~76vh y deja ver los
    bordes de la anterior y la siguiente (continuidad visual).
-   Las imágenes pasan por debajo del encabezado fijo. */
+   Las imágenes pasan por debajo del encabezado fijo.
+   El snap es MANDATORY (no proximity): al detener el scroll la
+   imagen queda siempre completa y centrada, nunca partida. La
+   alineación la hace SOLO el CSS — el JS no re-scrollea (lección
+   de correcciones 07). */
 .project-carousel {
   height: 100dvh;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
+  overflow-y: auto;                /* este es el contenedor que scrollea */
+  scroll-snap-type: y mandatory;
   padding: 12vh 3rem;
   scrollbar-width: none;
 }
@@ -465,7 +488,8 @@ a:hover { opacity: 0.45; }
 .project-carousel .ph {
   height: 76vh;
   margin-bottom: 4vh;
-  scroll-snap-align: center;
+  scroll-snap-align: center;       /* centrada, con bordes vecinos visibles */
+  scroll-snap-stop: always;        /* un gesto rápido no salta varias fotos */
 }
 .project-carousel .ph:last-child { margin-bottom: 0; }
 
@@ -500,7 +524,104 @@ a:hover { opacity: 0.45; }
     margin-bottom: 1.3rem;
   }
 
-  .work-counter { left: 1.3rem; }
+  /* ==========================================================
+     WORK móvil (PDFs versión teléfono):
+     - SIN overlay rosado: la foto siempre visible y la info
+       (nombre, tipo, tagline) debajo, en texto plano.
+     - Scroll VERTICAL normal de la página (nada de horizontal).
+     - Un solo tap navega (js/work.js desactiva el "primer tap
+       revela" por debajo de 768px).
+     ========================================================== */
+  .page-work { overflow: auto; }   /* el body vuelve a scrollear */
+
+  .work-track {
+    display: block;
+    height: auto;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding: 6.5rem 0 4rem;        /* deja libre el header fijo */
+  }
+
+  .work-panel {
+    flex: none;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    margin-bottom: 4rem;
+  }
+  .work-panel:last-child { margin-bottom: 0; }
+
+  /* La "overlay" deja de ser overlay: bloque estático bajo la
+     imagen, alineado con el borde izquierdo del recuadro. */
+  .work-overlay {
+    position: static;
+    transform: none;
+    width: var(--figure-w);
+    aspect-ratio: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.55rem;
+    padding: 1.1rem 0 0;
+    text-align: left;
+    background: transparent;
+    opacity: 1;
+  }
+  .work-overlay > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .work-overlay .project-subtitle { margin-top: -0.35rem; }
+
+  /* Tamaños PDFs móviles (nombre 14pt · tipo 10pt · tagline 7,6pt),
+     a escala web ×1.29: 18 / 13 / 10 px. */
+  .work-overlay .project-title { font-size: 18px; }
+  .work-overlay .project-type  { font-size: 13px; }
+  .work-overlay .project-blurb { font-size: 10px; max-width: none; }
+
+  /* El contador 01/06 pierde sentido sin paginación horizontal. */
+  .work-counter { display: none; }
+
+  /* ==========================================================
+     Textos en gris en móvil (Work y Proyecto): se usa el gris de
+     textos secundarios que YA usa el sitio (--muted, #8f8f8f) en
+     vez de introducir un tono nuevo. EXCEPCIÓN: "Paola Novellino"
+     (wordmark) mantiene su color de tinta actual.
+     ========================================================== */
+  .page-work .site-header .nav-left,
+  .page-work .site-header .nav-right,
+  .page-project .site-header .nav-left,
+  .page-project .site-header .nav-right {
+    color: var(--muted);
+    font-size: 13px;               /* WORK/ABOUT ref. 10pt móvil */
+  }
+
+  /* Wordmark móvil ref. 24,3pt → ~30px (misma escala ×1.29). */
+  .page-work .site-header .wordmark,
+  .page-project .site-header .wordmark {
+    font-size: 30px;
+    color: var(--ink);             /* NO cambia a gris */
+  }
+
+  /* En Proyecto móvil se retira el blend del header (estaba pensado
+     para fundir texto blanco sobre las fotos a sangre del desktop)
+     para poder mostrar los links en el gris exacto del sitio. */
+  .page-project .site-header { mix-blend-mode: normal; }
+
+  .page-project .project-info h1,
+  .page-project .project-info .project-subtitle,
+  .page-project .project-info .project-type,
+  .page-project .project-info .project-tagline,
+  .page-project .project-info .project-description,
+  .page-project .project-meta dt,
+  .page-project .project-meta dd,
+  .page-project .project-next {
+    color: var(--muted);
+  }
+  .page-project .project-info h1 { font-size: 18px; }        /* ref. 14pt */
+  .page-project .project-info .project-tagline { font-size: 10px; } /* ref. 7,6pt */
 }
 
 /* ============================================================

@@ -26,9 +26,11 @@ de `images/`, ordenadas alfabéticamente. La estructura es:
 images/
   home/                 imágenes personales del home (crossfade si hay varias)
   nu/                   fotos del proyecto NU
+  yellow-butterflies/   proyecto "Yellow Butterfly" (slug histórico en plural)
   cardinal/
-  yellow-butterflies/
   harmonia/
+  allegra/
+  dos-son-multitud/
   _sin-asignar/         zona temporal de fotos aún no repartidas (no se publica)
 ```
 
