@@ -323,11 +323,13 @@ a:hover { opacity: 0.45; }
 
 /* Tamaños según los PDFs 07 (nombre 14pt · tipo 10pt · tagline 7,6pt),
    llevados a escala web manteniendo las proporciones: 20 / 14 / 11 px. */
+/* El nombre se muestra tal cual está en `title` (data.js): NU es el
+   único todo en mayúsculas porque así está escrito; el resto va en
+   title case. Sin text-transform. */
 .work-overlay .project-title {
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 /* Subtítulo opcional bajo el nombre (p. ej. "two are multitude"). */
@@ -429,7 +431,8 @@ a:hover { opacity: 0.45; }
   font-size: 20px;           /* Times, ref. 25 pt (igual que el overlay) */
   font-weight: 400;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
+  /* Sin text-transform: el nombre sale tal cual está en data.js
+     (solo NU va todo en mayúsculas). */
 }
 
 .project-info .project-type {
@@ -497,7 +500,27 @@ a:hover { opacity: 0.45; }
    Responsive
    ============================================================ */
 @media (max-width: 767px) {
-  .site-header { padding: 1.2rem 1.3rem; }
+  /* ---------- Header móvil (correcciones 09) ----------
+     - WORK y ABOUT alineados con los BORDES del recuadro de imagen:
+       el padding lateral es exactamente el blanco que deja el
+       recuadro centrado de --figure-w, en todas las páginas (el
+       header es compartido).
+     - "Paola Novellino" centrado y SIEMPRE en una sola línea: la
+       fuente script mide ~5.8em para el nombre completo, y el hueco
+       central a 360px de ancho es ~150px → clamp con tope 26px
+       (nunca se parte ni se corta, verificado desde 320px). */
+  .site-header,
+  .page-home .site-header {
+    padding: 1.2rem calc((100% - var(--figure-w)) / 2);
+  }
+  .site-header .wordmark {
+    font-size: clamp(19px, 6.4vw, 26px);
+    white-space: nowrap;
+  }
+  /* WORK/ABOUT ref. 10pt de los PDFs móviles → 13px (escala ×1.29,
+     la misma proporción usada en el resto de tamaños móviles). */
+  .site-header .nav-left,
+  .site-header .nav-right { font-size: 13px; }
 
   .about-close { top: 1.1rem; right: 1.3rem; }
 
@@ -590,18 +613,17 @@ a:hover { opacity: 0.45; }
      vez de introducir un tono nuevo. EXCEPCIÓN: "Paola Novellino"
      (wordmark) mantiene su color de tinta actual.
      ========================================================== */
+  /* Solo COLOR: los tamaños del header móvil (nombre y WORK/ABOUT)
+     se definen arriba para todas las páginas. */
   .page-work .site-header .nav-left,
   .page-work .site-header .nav-right,
   .page-project .site-header .nav-left,
   .page-project .site-header .nav-right {
     color: var(--muted);
-    font-size: 13px;               /* WORK/ABOUT ref. 10pt móvil */
   }
 
-  /* Wordmark móvil ref. 24,3pt → ~30px (misma escala ×1.29). */
   .page-work .site-header .wordmark,
   .page-project .site-header .wordmark {
-    font-size: 30px;
     color: var(--ink);             /* NO cambia a gris */
   }
 
