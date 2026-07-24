@@ -513,7 +513,7 @@ a:hover { opacity: 0.45; }
        la script no se toquen al partirse. */
   .site-header,
   .page-home .site-header {
-    padding: 2.6rem calc((100% - var(--figure-w)) / 2) 1.2rem;
+    padding: 3.6rem calc((100% - var(--figure-w)) / 2) 1.2rem;
   }
   .site-header .wordmark {
     font-size: 30px;
@@ -535,8 +535,8 @@ a:hover { opacity: 0.45; }
     height: auto;
   }
   .project-info {
-    /* 9rem: despeje del header fijo móvil (más alto desde corr. 10) */
-    padding: 9rem 1.3rem 0;
+    /* 10rem: despeje del header fijo móvil (más alto desde corr. 10) */
+    padding: 10rem 1.3rem 0;
     max-width: none;
   }
   .project-carousel {
@@ -567,7 +567,7 @@ a:hover { opacity: 0.45; }
     scroll-snap-type: none;
     /* despeje del header fijo, que ahora es más alto (padding
        superior amplio + nombre que puede ir en dos líneas) */
-    padding: 9rem 0 4rem;
+    padding: 10rem 0 4rem;
   }
 
   .work-panel {
