@@ -362,6 +362,10 @@ a:hover { opacity: 0.45; }
 .work-overlay .project-type {
   font-size: 14px;           /* prop. 10pt frente al nombre de 14pt */
   color: rgba(28, 28, 28, 0.65);
+  /* El tipo va en title case tal cual está en data.js ("Skincare
+     Retail Store"): se anula el uppercase de la clase .label, que
+     sigue vigente para nav, datos técnicos y "Next —". */
+  text-transform: none;
 }
 
 /* Tagline del overlay en Times itálica (ref. 16 pt).
@@ -439,6 +443,7 @@ a:hover { opacity: 0.45; }
   margin-top: 0.4rem;
   font-size: 13px;           /* Times, ref. 16 pt */
   color: var(--muted);
+  text-transform: none;      /* title case tal cual data.js (como en Work) */
 }
 
 .project-info .project-tagline {
