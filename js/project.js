@@ -18,7 +18,10 @@
   const i = PROJECTS.indexOf(project);
   const next = PROJECTS[(i + 1) % PROJECTS.length];
 
-  /* ---------- Columna izquierda: información ---------- */
+  /* ---------- Columna izquierda: información ----------
+     `meta` admite campos variables por proyecto (se recorren las
+     entradas tal cual, sin lista fija): p. ej. Dos son Multitud
+     añade "Institution". */
   const metaRows = Object.entries(project.meta)
     .map(([key, value]) => '<dt class="label">' + key + '</dt><dd>' + value + '</dd>')
     .join('');
@@ -30,8 +33,14 @@
     .map((para) => '<p>' + para.trim() + '</p>')
     .join('');
 
+  // Subtítulo opcional (p. ej. "two are multitude" en Dos son Multitud)
+  const subtitleHtml = project.subtitle
+    ? '<p class="project-subtitle">' + project.subtitle + '</p>'
+    : '';
+
   infoEl.innerHTML =
     '<h1>' + project.title + '</h1>' +
+    subtitleHtml +
     '<p class="project-type label">' + project.type + '</p>' +
     '<p class="project-tagline">' + project.tagline + '</p>' +
     '<div class="project-description">' + descriptionHtml + '</div>' +

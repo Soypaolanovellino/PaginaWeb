@@ -17,10 +17,16 @@ function folderImages(slug) {
    (crossfade lento entre ellas si hay varias). */
 const HOME_IMAGES = folderImages('home');
 
-/* Los 4 proyectos, en el orden en que aparecen en WORK.
+/* Los 6 proyectos, en el orden en que aparecen en WORK.
+   El orden sigue la secuencia de los enlaces "NEXT >" de los PDFs
+   de Paola: NU → Yellow Butterfly → Cardinal → Harmonia →
+   Allegra → Dos son Multitud.
    `cover` e `images` se derivan del manifiesto: la PRIMERA foto
    (orden alfabético) de la carpeta es la portada; el resto es el
-   carrete vertical de la página del proyecto. */
+   carrete vertical de la página del proyecto.
+   Campos opcionales: `subtitle` (p. ej. Dos son Multitud) y las
+   claves de `meta` son variables por proyecto (project.js recorre
+   las entradas tal cual, no hay lista fija). */
 const PROJECTS = [
   {
     slug: 'nu',
@@ -58,6 +64,42 @@ const PROJECTS = [
     get images() { return folderImages(this.slug).slice(1); },
   },
   {
+    /* El nombre oficial es "Yellow Butterfly" (singular); en los PDFs
+       aparecía inconsistente. El slug histórico se mantiene en plural
+       para no romper URLs ya publicadas. */
+    slug: 'yellow-butterflies',
+    title: 'Yellow Butterfly',
+    type: 'Nursery Interior Design',
+    tagline:
+      'A fairytale nursery inspired by the yellow butterflies that announce the arrival of spring in Caracas.',
+    description:
+      'Yellow Butterfly is a nursery designed to celebrate the arrival of a baby girl born ' +
+      'during the season when Caracas fills with its iconic yellow butterflies. Inspired by ' +
+      'this fleeting natural phenomenon, the project transforms the room into a delicate and ' +
+      'dreamlike world where nature, imagination, and childhood come together.\n\n' +
+      'Drawing from the imagery of classic fairy tales, the design embraces a timeless ' +
+      'aesthetic through traditional detailing, soft forms, and carefully curated ' +
+      'furnishings. A palette of pastel yellow and forest green creates a balance between ' +
+      'warmth and serenity, evoking both the brightness of butterflies in flight and the ' +
+      'richness of the surrounding landscape.\n\n' +
+      'Every element of the space was selected to create an atmosphere of comfort, wonder, ' +
+      'and permanence. Rather than following temporary trends, the room was conceived as a ' +
+      'timeless environment that can grow alongside the child while preserving its sense of ' +
+      'magic and innocence.\n\n' +
+      'The result is a nursery that feels both elegant and enchanting, a space where ' +
+      'childhood begins surrounded by beauty, imagination, and the quiet poetry of nature.',
+    meta: {
+      Location: 'La Castellana, Caracas, Venezuela.',
+      Year: '2023',
+      Program: 'Interior Design & Decoration',
+      Status: 'Proposal / Completed',
+      Client: 'Confidential',
+      'Gross area': '10,45 sqm',
+    },
+    get cover() { return folderImages(this.slug)[0] || null; },
+    get images() { return folderImages(this.slug).slice(1); },
+  },
+  {
     slug: 'cardinal',
     title: 'Cardinal',
     type: 'Residential Interior Design | Bedroom',
@@ -85,39 +127,6 @@ const PROJECTS = [
       Status: 'Proposal / Design Development',
       Client: 'Confidential',
       'Gross area': '100 sqm',
-    },
-    get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
-  },
-  {
-    slug: 'yellow-butterflies',
-    title: 'Yellow Butterflies',
-    type: 'Nursery Interior Design',
-    tagline:
-      'A fairytale nursery inspired by the yellow butterflies that announce the arrival of spring in Caracas.',
-    description:
-      'Yellow Butterflies is a nursery designed to celebrate the arrival of a baby girl born ' +
-      'during the season when Caracas fills with its iconic yellow butterflies. Inspired by ' +
-      'this fleeting natural phenomenon, the project transforms the room into a delicate and ' +
-      'dreamlike world where nature, imagination, and childhood come together.\n\n' +
-      'Drawing from the imagery of classic fairy tales, the design embraces a timeless ' +
-      'aesthetic through traditional detailing, soft forms, and carefully curated ' +
-      'furnishings. A palette of pastel yellow and forest green creates a balance between ' +
-      'warmth and serenity, evoking both the brightness of butterflies in flight and the ' +
-      'richness of the surrounding landscape.\n\n' +
-      'Every element of the space was selected to create an atmosphere of comfort, wonder, ' +
-      'and permanence. Rather than following temporary trends, the room was conceived as a ' +
-      'timeless environment that can grow alongside the child while preserving its sense of ' +
-      'magic and innocence.\n\n' +
-      'The result is a nursery that feels both elegant and enchanting, a space where ' +
-      'childhood begins surrounded by beauty, imagination, and the quiet poetry of nature.',
-    meta: {
-      Location: 'La Castellana, Caracas, Venezuela.',
-      Year: '2023',
-      Program: 'Interior Design & Decoration',
-      Status: 'Proposal / Completed',
-      Client: 'Confidential',
-      'Gross area': '10,45 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
     get images() { return folderImages(this.slug).slice(1); },
@@ -152,6 +161,85 @@ const PROJECTS = [
       Program: 'Workplace Interior Design',
       Status: 'Proposal / Design Development',
       Client: 'Confidential',
+      'Gross area': '124 sqm',
+    },
+    get cover() { return folderImages(this.slug)[0] || null; },
+    get images() { return folderImages(this.slug).slice(1); },
+  },
+  {
+    slug: 'allegra',
+    title: 'Allegra',
+    type: 'Residential Interior Design',
+    tagline:
+      'A vibrant home shaped by the balance between private retreat, creative expression, and joyful gathering.',
+    description:
+      'Allegra explores the idea of counterpoint: the harmonious coexistence of contrasting ' +
+      'energies within a single home. Designed for a vibrant and sociable woman, the ' +
+      'apartment moves between two essential states—private retreat and social setting.\n\n' +
+      'Calm, intimate spaces support rest and creativity, while expressive colors, ' +
+      'sculptural forms, and flexible gathering areas encourage connection and spontaneity. ' +
+      'This duality is also reflected in the material palette: warm wood meets cool metal, ' +
+      'soft textiles contrast with polished marble, and curved silhouettes balance clean ' +
+      'architectural lines.\n\n' +
+      'Retro influences are reinterpreted through a contemporary and refined perspective, ' +
+      'bringing character, playfulness, and a sense of nostalgia without overwhelming the ' +
+      'space.\n\n' +
+      'Rather than separating solitude from social life, the project allows both to coexist ' +
+      'naturally. The result is a colorful and sophisticated home where relaxation, ' +
+      'creativity, and celebration remain in constant balance.',
+    /* VERIFICAR CON PAOLA: los datos técnicos de Allegra fueron copiados de
+       Harmonia en el PDF original (Program dice "Workplace Interior Design"
+       pero Allegra es un proyecto residencial, y el área 124 sqm se repite en
+       3 proyectos). Faltan los datos reales de Allegra. */
+    meta: {
+      Location: 'Av. Francisco de Miranda, Centro Plaza, Caracas, Venezuela.',
+      Year: '2026',
+      Program: 'Workplace Interior Design',
+      Status: 'Proposal / Design Development',
+      Client: 'Confidential',
+      'Gross area': '124 sqm',
+    },
+    get cover() { return folderImages(this.slug)[0] || null; },
+    get images() { return folderImages(this.slug).slice(1); },
+  },
+  {
+    slug: 'dos-son-multitud',
+    title: 'Dos son Multitud',
+    subtitle: 'two are multitude',
+    type: 'Experimental Residence | Interior Design Thesis',
+    tagline:
+      'A house designed to interrupt automatic living and return the body to a constant state of presence.',
+    description:
+      'Dos Son Multitud explores whether a home can make its inhabitants more conscious of ' +
+      'their own existence. The project begins with the idea that contemporary life often ' +
+      'places the body on autopilot, turning everyday actions into movements performed ' +
+      'without attention.\n\n' +
+      'Rather than acting as a passive container, the house becomes an active presence. ' +
+      'Every threshold, movement, material, sound, and change in atmosphere is designed to ' +
+      'interrupt routine and restore awareness. Entering, walking, eating, bathing, and ' +
+      'resting become deliberate experiences that demand attention from both the body and ' +
+      'the mind.\n\n' +
+      'Conceived for Ana Beido and David Cronenberg, the residence brings together two ' +
+      'contrasting creative sensibilities within a single domestic environment. Their ' +
+      'coexistence shapes a house that is intimate yet unsettling, protective yet demanding, ' +
+      'and familiar while never becoming entirely predictable.\n\n' +
+      'The design is guided by eight principles: visceral experience, warmth, stoicism, ' +
+      'rootedness, ternary order, hierophany, reverberation, and the sacred. These ideas are ' +
+      'translated into spatial tension, tactile materials, bodily resistance, ritual, and ' +
+      'moments of revelation.\n\n' +
+      'The result is not a house designed only for comfort, but one designed to make life ' +
+      'perceptible. It challenges its inhabitants to remain present, to recognize the ' +
+      'meaning of ordinary actions, and to experience the home as a place where existence ' +
+      'becomes conscious.',
+    /* Este proyecto tiene una clave extra en `meta` ("Institution") que los
+       demás no tienen: el render de datos técnicos admite campos variables. */
+    meta: {
+      Location: 'Nowhere.',
+      Year: '2026',
+      Program: 'Experimental Residence',
+      Status: 'Proposal',
+      Institution: 'Instituto de Diseño de Caracas',
+      Client: 'Atelier Caracas',
       'Gross area': '124 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
