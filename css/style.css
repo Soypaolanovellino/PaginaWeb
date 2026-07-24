@@ -416,18 +416,27 @@ a:hover { opacity: 0.45; }
 
 /* ============================================================
    PROYECTO — info a la izquierda, carrete vertical a la derecha
+   SCROLL UNIFICADO (correcciones 11): .project es el ÚNICO
+   contenedor que scrollea en desktop; texto e imágenes avanzan
+   juntos y el recorrido total lo marca la columna más larga (la
+   más corta simplemente termina antes y queda en su último
+   estado). Los puntos de snap son las imágenes (nietas del
+   contenedor: el snap admite descendientes, no solo hijos).
    ============================================================ */
 .project {
   display: grid;
   grid-template-columns: minmax(300px, 38%) 1fr;
+  align-items: start;            /* cada columna con su altura real */
   height: 100dvh;
+  overflow-y: auto;              /* único scroll: ambas columnas a la vez */
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
 }
+.project::-webkit-scrollbar { display: none; }
 
 .project-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 7rem 3rem 4rem;
+  /* Fluye con el scroll unificado (ya no va centrada en 100dvh). */
+  padding: 14vh 3rem 4rem;
   max-width: 460px;
 }
 
@@ -473,6 +482,9 @@ a:hover { opacity: 0.45; }
 .project-meta dd { margin: 0; }
 
 .project-next {
+  /* block: la columna de info ya no es flex y en móvil el enlace
+     vive al final del flujo de imágenes/párrafos */
+  display: block;
   margin-top: 3.5rem;
   color: var(--muted);
 }
@@ -480,18 +492,14 @@ a:hover { opacity: 0.45; }
 /* Carrete vertical: cada imagen ocupa ~76vh y deja ver los
    bordes de la anterior y la siguiente (continuidad visual).
    Las imágenes pasan por debajo del encabezado fijo.
-   El snap es MANDATORY (no proximity): al detener el scroll la
-   imagen queda siempre completa y centrada, nunca partida. La
-   alineación la hace SOLO el CSS — el JS no re-scrollea (lección
-   de correcciones 07). */
+   Ya NO tiene scroll propio: fluye dentro del scroll unificado de
+   .project. El snap sigue siendo MANDATORY (en .project): al
+   detener el scroll la imagen queda siempre completa y centrada.
+   La alineación la hace SOLO el CSS — el JS no re-scrollea
+   (lección de correcciones 07/08). */
 .project-carousel {
-  height: 100dvh;
-  overflow-y: auto;                /* este es el contenedor que scrollea */
-  scroll-snap-type: y mandatory;
   padding: 12vh 3rem;
-  scrollbar-width: none;
 }
-.project-carousel::-webkit-scrollbar { display: none; }
 
 .project-carousel .ph {
   height: 76vh;
@@ -500,6 +508,14 @@ a:hover { opacity: 0.45; }
   scroll-snap-stop: always;        /* un gesto rápido no salta varias fotos */
 }
 .project-carousel .ph:last-child { margin-bottom: 0; }
+
+/* Cuando la columna de texto es la MÁS LARGA (clase puesta por
+   js/project.js midiendo el layout), su último elemento se vuelve
+   punto de snap "end": el final del texto queda alcanzable aunque
+   el snap sea mandatory. Con el carrete más largo no se aplica,
+   para no crear un punto de snap intermedio que deje imágenes a
+   medias. */
+.project-info.info-is-longest .project-next { scroll-snap-align: end; }
 
 /* ============================================================
    Responsive
@@ -533,11 +549,16 @@ a:hover { opacity: 0.45; }
 
   .home { padding: 14vh 1.3rem 10vh; }
 
-  /* Proyecto: en móvil todo fluye en una columna y el scroll
-     es el de la página (el carrete deja de tener scroll propio) */
+  /* ---------- Proyecto móvil (PDF PW_NU_version_telefono) ----------
+     Una sola columna con el scroll normal de la página, en este
+     orden (js/project.js renderiza así en <768px): nombre → tipo →
+     tagline → datos técnicos → imagen → párrafo → imagen → párrafo…
+     → Next. El scroll unificado y el snap son SOLO de desktop. */
   .project {
     grid-template-columns: 1fr;
     height: auto;
+    overflow: visible;
+    scroll-snap-type: none;
   }
   .project-info {
     /* 10rem: despeje del header fijo móvil (más alto desde corr. 10) */
@@ -545,14 +566,33 @@ a:hover { opacity: 0.45; }
     max-width: none;
   }
   .project-carousel {
-    height: auto;
-    overflow: visible;
-    padding: 3rem 1.3rem 5rem;
+    /* arranca justo tras los datos técnicos */
+    padding: 2rem 1.3rem 5rem;
   }
   .project-carousel .ph {
     height: auto;
     aspect-ratio: 4 / 5;
     margin-bottom: 1.3rem;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  /* Tipo en itálica como en el PDF (ref. 10pt → 13px, ya heredado). */
+  .page-project .project-info .project-type { font-style: italic; }
+
+  /* Datos técnicos ref. 7,6pt → 10px. */
+  .page-project .project-meta,
+  .page-project .project-meta dt { font-size: 10px; }
+  .page-project .project-meta { margin-top: 1.6rem; }
+
+  /* Párrafos del texto conceptual intercalados entre las imágenes:
+     justificados (PDF) y en el gris de textos secundarios. */
+  .project-carousel .project-paragraph {
+    margin: 0.4rem 0 2.2rem;
+    font-size: 13px;
+    line-height: 1.9;
+    text-align: justify;
+    color: var(--muted);
   }
 
   /* ==========================================================
