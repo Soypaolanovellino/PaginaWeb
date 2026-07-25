@@ -230,6 +230,11 @@ a:hover { opacity: 0.45; }
   font-size: 13px;   /* Times, ref. 16 pt */
   line-height: 1.9;
   color: var(--ink);
+  /* Justificada (corr. 15, decisión de Paola: "justificar todo";
+     antes iba centrada con el resto del bloque del About — los
+     contactos de abajo, de una línea, siguen centrados). */
+  text-align: justify;
+  hyphens: auto;
 }
 
 .about-contact {
@@ -377,6 +382,11 @@ a:hover { opacity: 0.45; }
   font-size: 11px;           /* prop. 7,6pt frente al nombre de 14pt */
   font-style: italic;
   line-height: 1.8;
+  /* Justificado (corr. 15, decisión de Paola: "justificar todo",
+     incluidos los bloques antes centrados). La CAJA sigue centrada
+     en el overlay; el texto dentro va en bloque. */
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* El texto del overlay entra con un leve desplazamiento hacia
@@ -481,12 +491,19 @@ a:hover { opacity: 0.45; }
   font-style: italic;
   line-height: 1.7;
   color: var(--ink);
+  text-align: justify;       /* correcciones 15 */
+  hyphens: auto;
 }
 
 .project-info .project-description {
   margin-top: 2.2rem;
   font-size: 13px;           /* Times, ref. 16 pt */
   line-height: 1.9;
+  /* Justificación real en todo texto multilínea (correcciones 15).
+     hyphens evita huecos exagerados en la columna estrecha (el
+     contenido va en inglés, lang="en" en el <html>). */
+  text-align: justify;
+  hyphens: auto;
 }
 .project-info .project-description p + p { margin-top: 1.1rem; }
 
@@ -499,7 +516,12 @@ a:hover { opacity: 0.45; }
   font-size: 13px;           /* Times, ref. 16 pt */
 }
 .project-meta dt { color: var(--muted); font-size: 13px; }
-.project-meta dd { margin: 0; }
+.project-meta dd {
+  margin: 0;
+  /* valores largos (p. ej. el Location de NU) justificados (corr. 15) */
+  text-align: justify;
+  hyphens: auto;
+}
 
 .project-next {
   /* block: la columna de info ya no es flex y en móvil el enlace
@@ -637,6 +659,7 @@ a:hover { opacity: 0.45; }
     font-size: 13px;
     line-height: 1.9;
     text-align: justify;
+    hyphens: auto;             /* consistente con el resto (corr. 15) */
     color: var(--muted);
   }
 
