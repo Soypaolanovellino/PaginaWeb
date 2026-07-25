@@ -29,9 +29,31 @@ const IMAGES = {
     "images/home/IMG_2052.jpg",
     "images/home/Tezza-8013.jpg"
   ],
-  "nu": [],
+  "nu": [
+    "images/nu/IMAGEN 01.jpg",
+    "images/nu/IMAGEN 02.jpg",
+    "images/nu/IMAGEN 03.jpg",
+    "images/nu/IMAGEN 04.jpg",
+    "images/nu/IMAGEN 05.jpg",
+    "images/nu/IMAGEN 06.jpg",
+    "images/nu/IMAGEN 07.jpg",
+    "images/nu/IMAGEN 08.jpg"
+  ],
   "yellow-butterflies": [],
-  "cardinal": [],
+  "cardinal": [
+    "images/cardinal/Imagen 01.jpg",
+    "images/cardinal/Imagen 02.jpg",
+    "images/cardinal/Imagen 03.jpg",
+    "images/cardinal/Imagen 04.jpg",
+    "images/cardinal/Imagen 05.jpg",
+    "images/cardinal/Imagen 06.jpg",
+    "images/cardinal/Imagen 07.jpg",
+    "images/cardinal/Imagen 08.jpg",
+    "images/cardinal/Imagen 09.jpg",
+    "images/cardinal/Imagen 10.jpg",
+    "images/cardinal/Imagen 11.jpg",
+    "images/cardinal/Imagen 12.jpg"
+  ],
   "harmonia": [],
   "allegra": [],
   "dos-son-multitud": []

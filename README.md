@@ -7,15 +7,19 @@ deployar en Vercel tal cual: `index.html` está en la raíz.
 
 No requiere instalación: abre `index.html` directamente en el navegador.
 
-Si prefieres un servidor local (recomendado para probar en el móvil):
+Para un servidor local (recomendado para probar en el móvil), usa el del
+propio proyecto:
 
 ```bash
-npx serve .
-# o
-python -m http.server 8000
+npm run dev        # o: node scripts/dev-server.js
 ```
 
-y abre `http://localhost:8000`.
+y abre `http://localhost:3000`. Este servidor nunca redirige (conserva el
+`?p=proyecto` de las páginas de proyecto) y acepta las URLs con y sin `.html`.
+
+> Nota: `npx serve .` también funciona (el `serve.json` del repo desactiva su
+> redirect de "clean URLs", que se comía el `?p=` y mandaba todos los
+> proyectos a NU), pero solo con las URLs `.html` completas.
 
 ## Imágenes — carpeta por proyecto
 
@@ -38,7 +42,8 @@ Reglas:
 
 - La **primera** imagen (orden alfabético) de cada carpeta es la **portada**
   que se ve en la página Work.
-- El **resto** son el carrete vertical de la página del proyecto, en orden
+- El carrete vertical de la página del proyecto muestra **todas** las imágenes
+  de la carpeta (la portada incluida, abriendo el carrete), en orden
   alfabético.
 - Para **reordenar**, antepón un prefijo numérico al archivo: `01_foto.jpg`,
   `02_foto.jpg`, `03_foto.jpg`… El orden alfabético hace el resto.
