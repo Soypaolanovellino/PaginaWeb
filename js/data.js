@@ -22,8 +22,9 @@ const HOME_IMAGES = folderImages('home');
    de Paola: NU → Yellow Butterfly → Cardinal → Harmonia →
    Allegra → Dos son Multitud.
    `cover` e `images` se derivan del manifiesto: la PRIMERA foto
-   (orden alfabético) de la carpeta es la portada; el resto es el
-   carrete vertical de la página del proyecto.
+   (orden alfabético) de la carpeta es la portada que se ve en Work,
+   y el carrete de la página del proyecto muestra TODAS las fotos de
+   la carpeta (la portada incluida, abriendo el carrete).
    Campos opcionales: `subtitle` (p. ej. Dos son Multitud) y las
    claves de `meta` son variables por proyecto (project.js recorre
    las entradas tal cual, no hay lista fija). */
@@ -61,7 +62,7 @@ const PROJECTS = [
       'Gross area': '100 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
+    get images() { return folderImages(this.slug); },
   },
   {
     /* El nombre oficial es "Yellow Butterfly" (singular); en los PDFs
@@ -97,7 +98,7 @@ const PROJECTS = [
       'Gross area': '10,45 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
+    get images() { return folderImages(this.slug); },
   },
   {
     slug: 'cardinal',
@@ -129,7 +130,7 @@ const PROJECTS = [
       'Gross area': '100 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
+    get images() { return folderImages(this.slug); },
   },
   {
     slug: 'harmonia',
@@ -164,7 +165,7 @@ const PROJECTS = [
       'Gross area': '124 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
+    get images() { return folderImages(this.slug); },
   },
   {
     slug: 'allegra',
@@ -200,7 +201,7 @@ const PROJECTS = [
       'Gross area': '124 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
+    get images() { return folderImages(this.slug); },
   },
   {
     slug: 'dos-son-multitud',
@@ -243,6 +244,6 @@ const PROJECTS = [
       'Gross area': '124 sqm',
     },
     get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug).slice(1); },
+    get images() { return folderImages(this.slug); },
   },
 ];

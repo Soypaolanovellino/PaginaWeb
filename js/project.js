@@ -20,8 +20,15 @@
   const carouselEl = document.getElementById('project-carousel');
   if (!infoEl || !carouselEl) return;
 
-  /* ---------- Resolver el proyecto desde la URL ---------- */
-  const slug = new URLSearchParams(window.location.search).get('p');
+  /* ---------- Resolver el proyecto desde la URL ----------
+     Normalmente viene en ?p=<slug>. Como respaldo se acepta también
+     #<slug>: algunos servidores con "clean URLs" (p. ej. `serve` en
+     local) redirigen project.html?p=x → /project TIRANDO el query
+     string, y sin parámetro todos los proyectos caían en el primero
+     (NU). serve.json desactiva ese redirect en local; el hash
+     sobrevive a cualquier redirect como segunda red. */
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('p') || window.location.hash.replace('#', '');
   const project = PROJECTS.find((p) => p.slug === slug) || PROJECTS[0];
   document.title = project.title + ' — Paola Novellino';
 

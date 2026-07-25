@@ -38,7 +38,8 @@ Reglas:
 
 - La **primera** imagen (orden alfabético) de cada carpeta es la **portada**
   que se ve en la página Work.
-- El **resto** son el carrete vertical de la página del proyecto, en orden
+- El carrete vertical de la página del proyecto muestra **todas** las imágenes
+  de la carpeta (la portada incluida, abriendo el carrete), en orden
   alfabético.
 - Para **reordenar**, antepón un prefijo numérico al archivo: `01_foto.jpg`,
   `02_foto.jpg`, `03_foto.jpg`… El orden alfabético hace el resto.
