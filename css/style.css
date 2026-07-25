@@ -416,12 +416,12 @@ a:hover { opacity: 0.45; }
 
 /* ============================================================
    PROYECTO — info a la izquierda, carrete vertical a la derecha
-   SCROLL UNIFICADO (correcciones 11): .project es el ÚNICO
-   contenedor que scrollea en desktop; texto e imágenes avanzan
-   juntos y el recorrido total lo marca la columna más larga (la
-   más corta simplemente termina antes y queda en su último
-   estado). Los puntos de snap son las imágenes (nietas del
-   contenedor: el snap admite descendientes, no solo hijos).
+   SCROLL UNIFICADO (correcciones 11) + INFO STICKY (correcciones
+   12): .project es el ÚNICO contenedor que scrollea en desktop; la
+   columna de info queda FIJA (sticky) mientras el carrete de
+   imágenes se desliza, y el recorrido total lo define el carrete.
+   Los puntos de snap son las imágenes (nietas del contenedor: el
+   snap admite descendientes, no solo hijos).
    ============================================================ */
 .project {
   display: grid;
@@ -434,11 +434,31 @@ a:hover { opacity: 0.45; }
 }
 .project::-webkit-scrollbar { display: none; }
 
+/* Columna de info FIJA (correcciones 12, ref. re-pull.com/drop-001):
+   sticky dentro del scroll unificado. Su contenedor de sticky es su
+   ÁREA de grid, cuya altura es la de la fila completa — es decir, la
+   del carrete (la columna más alta) — así que la info queda pegada
+   arriba durante TODO el recorrido de las imágenes, y el scroll de
+   la página termina exactamente donde termina el carrete. */
 .project-info {
-  /* Fluye con el scroll unificado (ya no va centrada en 100dvh). */
-  padding: 14vh 3rem 4rem;
+  position: sticky;
+  top: 0;
+  height: 100dvh;            /* su propia "ventana" fija */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;          /* red de seguridad si el texto excede el alto */
+  scrollbar-width: none;
+  padding: 7rem 3rem 4rem;
   max-width: 460px;
 }
+.project-info::-webkit-scrollbar { display: none; }
+
+/* Centrado vertical "seguro" del bloque de texto: con contenido
+   corto los margin auto lo centran; si excede el alto colapsan a 0
+   y el texto se lee desde arriba con scroll propio (un centrado con
+   justify-content dejaría el inicio inalcanzable al desbordar). */
+.project-info > :first-child { margin-top: auto; }
+.project-info > :last-child { margin-bottom: auto; }
 
 .project-info h1 {
   font-size: 20px;           /* Times, ref. 25 pt (igual que el overlay) */
@@ -509,13 +529,10 @@ a:hover { opacity: 0.45; }
 }
 .project-carousel .ph:last-child { margin-bottom: 0; }
 
-/* Cuando la columna de texto es la MÁS LARGA (clase puesta por
-   js/project.js midiendo el layout), su último elemento se vuelve
-   punto de snap "end": el final del texto queda alcanzable aunque
-   el snap sea mandatory. Con el carrete más largo no se aplica,
-   para no crear un punto de snap intermedio que deje imágenes a
-   medias. */
-.project-info.info-is-longest .project-next { scroll-snap-align: end; }
+/* (correcciones 12) Con la info sticky ya no existe el caso "columna
+   de texto más larga que el carrete": el recorrido siempre lo define
+   el carrete y el texto desborda, si acaso, dentro de su propia caja
+   fija. La regla info-is-longest y su JS de medición se eliminaron. */
 
 /* ============================================================
    Responsive
@@ -561,6 +578,12 @@ a:hover { opacity: 0.45; }
     scroll-snap-type: none;
   }
   .project-info {
+    /* sin sticky en móvil: bloque normal dentro de la columna única
+       (los margin auto del centrado desktop computan a 0 en block) */
+    position: static;
+    height: auto;
+    display: block;
+    overflow: visible;
     /* 10rem: despeje del header fijo móvil (más alto desde corr. 10) */
     padding: 10rem 1.3rem 0;
     max-width: none;

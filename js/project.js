@@ -4,9 +4,10 @@
    project.html?p=nu. Todo el contenido sale de js/data.js.
 
    Dos diagramaciones (correcciones 11):
-   - Desktop (≥768px): dos columnas — info a la izquierda, carrete
-     de imágenes a la derecha — con UN SOLO scroll unificado (el
-     contenedor .project) y snap de imágenes hecho por el CSS.
+   - Desktop (≥768px): dos columnas — info FIJA (sticky) a la
+     izquierda, carrete de imágenes deslizándose a la derecha — con
+     UN SOLO scroll unificado (el contenedor .project) y snap de
+     imágenes; sticky y snap los hace el CSS (correcciones 11 y 12).
    - Móvil (<768px): una sola columna en el orden del PDF
      PW_NU_version_telefono: nombre → tipo → tagline → datos
      técnicos → imagen → párrafo → imagen → párrafo … → Next.
@@ -64,23 +65,7 @@
 
   const desktopMQ = window.matchMedia('(min-width: 768px)');
 
-  /* Si la columna de TEXTO resulta más larga que el carrete, su
-     último elemento (el enlace Next) se convierte en punto de snap
-     "end" (clase info-is-longest, ver CSS): así el final del texto
-     es alcanzable aun con snap mandatory. Si el carrete es más
-     largo no hace falta — su última imagen ya es el punto final — y
-     se evita un punto de snap intermedio que dejaría imágenes a
-     medias. Es un cálculo estático de layout: NO manipula el scroll
-     (lección de correcciones 07/08). */
-  function markLongestColumn() {
-    if (!desktopMQ.matches) return;
-    infoEl.classList.toggle(
-      'info-is-longest',
-      infoEl.offsetHeight > carouselEl.offsetHeight
-    );
-  }
-
-  /* ---------- Desktop: info | carrete ---------- */
+  /* ---------- Desktop: info fija (sticky) | carrete ---------- */
   function renderDesktop() {
     infoEl.innerHTML =
       titleHtml + subtitleHtml + typeHtml + taglineHtml +
@@ -90,7 +75,6 @@
       metaHtml + nextHtml;
     carouselEl.innerHTML = figures.join('');
     hydrateImages(carouselEl);
-    markLongestColumn();
   }
 
   /* ---------- Móvil: una columna, orden del PDF ---------- */
@@ -115,12 +99,11 @@
 
   render();
   desktopMQ.addEventListener('change', render);
-  /* Las alturas dependen del viewport: al redimensionar puede
-     cambiar cuál columna es la más larga. */
-  window.addEventListener('resize', markLongestColumn);
 
-  /* NOTA: aquí vivía la paginación por rueda del carrete (y antes un
-     scrollTop += deltaY crudo). Con el scroll unificado sobra: la
-     rueda en cualquier punto scrollea .project de forma nativa y el
-     CSS hace el snap. No reintroducir JS de scroll. */
+  /* NOTA: aquí vivió la paginación por rueda del carrete (antes un
+     scrollTop += deltaY crudo) y luego la medición de columnas de
+     la corr. 11. Con el scroll unificado + info sticky (corr. 12)
+     no queda NINGÚN JS de scroll ni de layout: la rueda scrollea
+     .project de forma nativa y el CSS hace sticky y snap. No
+     reintroducir. */
 })();
