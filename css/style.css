@@ -572,6 +572,18 @@ a:hover { opacity: 0.45; }
      quedan simétricos respecto a los bordes del recuadro. */
   .site-header .nav-right { margin-right: -0.22em; }
 
+  /* Proyecto móvil (correcciones 14): aquí las imágenes van a
+     sangre y NO existe el recuadro centrado de --figure-w, así que
+     la alineación al recuadro (corr. 09/13) dejaba WORK y ABOUT en
+     una posición que no cuadra con nada. En esta página van
+     simétricos respecto a los bordes de la PANTALLA, con el margen
+     discreto estándar del sitio. Las demás páginas mantienen la
+     alineación al recuadro. */
+  .page-project .site-header {
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+  }
+
   .about-close { top: 1.1rem; right: 1.3rem; }
 
   .home { padding: 14vh 1.3rem 10vh; }
