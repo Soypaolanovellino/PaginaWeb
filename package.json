@@ -4,6 +4,7 @@
   "private": true,
   "description": "Portafolio de Paola Novellino — sitio estatico (HTML/CSS/JS vanilla).",
   "scripts": {
+    "dev": "node scripts/dev-server.js",
     "manifest": "node scripts/build-manifest.js",
     "optimize": "node scripts/optimize-images.js"
   },
