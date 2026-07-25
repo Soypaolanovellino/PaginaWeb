@@ -650,13 +650,27 @@ a:hover { opacity: 0.45; }
     /* arranca justo tras los datos técnicos */
     padding: 2rem 1.3rem 5rem;
   }
+  /* Imágenes COMPLETAS en móvil (correcciones 17): nada de caja 4/5
+     con cover que recortaba los laterales del render. La imagen va
+     en flujo normal, ancho completo y alto automático: se ve entera,
+     con su relación de aspecto (decisión de Paola: imagen completa
+     antes que llenar el ancho). El desktop no cambia (allí .ph img
+     sigue absoluto con cover dentro del carrete con snap). */
   .project-carousel .ph {
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: auto;            /* el alto lo pone la propia imagen */
     margin-bottom: 1.3rem;
     scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
+  .project-carousel .ph img {
+    position: static;
+    width: 100%;
+    height: auto;                  /* relación de aspecto intacta */
+  }
+  /* Los placeholders grises (proyectos aún sin fotos) son <figure>
+     vacíos: conservan el bloque 4/5 para no colapsar. */
+  .project-carousel .ph:empty { aspect-ratio: 4 / 5; }
 
   /* Tipo en itálica como en el PDF (ref. 10pt → 13px, ya heredado). */
   .page-project .project-info .project-type { font-style: italic; }
