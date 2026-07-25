@@ -17,7 +17,11 @@
   PROJECTS.forEach((p) => {
     const panel = document.createElement('a');
     panel.className = 'work-panel';
-    panel.href = 'project.html?p=' + p.slug;
+    /* El proyecto va en ?p= y TAMBIÉN en #hash: si algún servidor o
+       un redirect 301 cacheado por el navegador se come el query
+       string, el fragmento sobrevive siempre y project.js lo usa de
+       respaldo — ningún proyecto vuelve a caer en NU. */
+    panel.href = 'project.html?p=' + p.slug + '#' + p.slug;
     panel.setAttribute('aria-label', p.title + ' — ' + p.type);
     // Si aún no hay portada en la carpeta, se omite el <img> y queda
     // el bloque gris del placeholder (.ph) — sin icono de imagen rota.

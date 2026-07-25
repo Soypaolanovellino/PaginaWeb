@@ -52,8 +52,11 @@
       .map(([key, value]) => '<dt class="label">' + key + '</dt><dd>' + value + '</dd>')
       .join('') +
     '</dl>';
+  // ?p= y #hash a la vez: el hash sobrevive a cualquier redirect que
+  // pierda el query string (ver comentario en work.js).
   const nextHtml =
-    '<a class="project-next label" href="project.html?p=' + next.slug + '">' +
+    '<a class="project-next label" href="project.html?p=' + next.slug +
+    '#' + next.slug + '">' +
     'Next — ' + next.title + '</a>';
 
   // La descripción trae saltos "\n\n" entre párrafos: cada uno se
