@@ -58,7 +58,10 @@ body {
   font-weight: 400;
   line-height: 1.7;
   letter-spacing: 0.01em;
-  color: var(--ink);
+  /* Correcciones 16: TODO el texto del sitio va en el gris --muted
+     (desktop y móvil). Única excepción: el wordmark "Paola
+     Novellino", que conserva la tinta (reglas propias más abajo). */
+  color: var(--muted);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
 }
@@ -161,25 +164,36 @@ a:hover { opacity: 0.45; }
    constantes, sin cambiar con el scroll. */
 .page-project .site-header {
   mix-blend-mode: difference;
+  /* Correcciones 16: margen lateral cómodo y simétrico (alineado con
+     el padding de 3rem de las columnas del proyecto) para que WORK y
+     ABOUT no queden pegados a los filos de la pantalla. En móvil lo
+     sobreescribe la regla de 1.3rem del media query (corr. 14). */
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 .page-project .site-header a {
   color: #fff;
 }
-/* Work: texto del header en negro sólido, invariable con el scroll. */
-.page-work .site-header a,
+/* Correcciones 16: WORK y ABOUT del proyecto deben LEERSE en el gris
+   --muted. Como el header lleva difference, el color que renderiza
+   sobre fondo blanco es 255-X por canal: #707070 produce exactamente
+   #8f8f8f (--muted), y sobre las fotos sigue invirtiendo (legible).
+   El wordmark queda en #fff (renderiza tinta), única excepción. */
+.page-project .site-header .nav-left,
+.page-project .site-header .nav-right {
+  color: #707070;
+}
+/* Work: el wordmark en tinta sólida, invariable con el scroll; los
+   links WORK/ABOUT heredan el gris global (corr. 16). */
 .page-work .site-header .wordmark {
   color: var(--ink);
 }
 
-/* Home: todo el encabezado (WORK · Paola Novellino · ABOUT) baja en
-   conjunto, separándose del tope y quedando más hacia el centro, con
-   los tres elementos alineados en una fila limpia. */
-.page-home .site-header {
-  align-items: center;
-  /* top: separado del tope; laterales: WORK y ABOUT un poco más
-     hacia el centro (el nombre sigue centrado por el grid). */
-  padding: 5.5rem 4rem 1.6rem;
-}
+/* Home (correcciones 16): el header va a la MISMA altura que en Work
+   y el resto del sitio (antes bajaba con un padding propio de
+   5.5rem/4rem y "saltaba" al navegar entre páginas). Ya no hay regla
+   desktop propia: usa el padding base de .site-header. En móvil el
+   header compartido del media query sigue aplicando igual. */
 
 /* ============================================================
    HOME
@@ -229,7 +243,7 @@ a:hover { opacity: 0.45; }
 .about-bio {
   font-size: 13px;   /* Times, ref. 16 pt */
   line-height: 1.9;
-  color: var(--ink);
+  color: var(--muted);   /* corr. 16: gris del sitio */
   /* Justificada (corr. 15, decisión de Paola: "justificar todo";
      antes iba centrada con el resto del bloque del About — los
      contactos de abajo, de una línea, siguen centrados). */
@@ -245,7 +259,7 @@ a:hover { opacity: 0.45; }
   font-size: 13px;
   color: var(--muted);
 }
-.about-contact a { color: var(--ink); }
+.about-contact a { color: var(--muted); } /* corr. 16: gris del sitio */
 
 /* "X" discreta arriba a la derecha: cierra el About y vuelve al home.
    En el mismo gris de la navegación, pequeña y silenciosa. */
@@ -342,7 +356,7 @@ a:hover { opacity: 0.45; }
 .project-info .project-subtitle {
   font-size: 12px;
   font-style: italic;
-  color: rgba(28, 28, 28, 0.65);
+  color: var(--muted);       /* corr. 16: gris del sitio */
 }
 .work-overlay .project-subtitle { margin-top: -1rem; } /* pegado al nombre */
 .project-info .project-subtitle { margin-top: 0.2rem; }
@@ -366,7 +380,7 @@ a:hover { opacity: 0.45; }
 
 .work-overlay .project-type {
   font-size: 14px;           /* prop. 10pt frente al nombre de 14pt */
-  color: rgba(28, 28, 28, 0.65);
+  color: var(--muted);       /* corr. 16: gris del sitio */
   /* El tipo va en title case tal cual está en data.js ("Skincare
      Retail Store"): se anula el uppercase de la clase .label, que
      sigue vigente para nav, datos técnicos y "Next —". */
@@ -490,7 +504,7 @@ a:hover { opacity: 0.45; }
   font-size: 13px;           /* Times itálica, ref. 16 pt */
   font-style: italic;
   line-height: 1.7;
-  color: var(--ink);
+  color: var(--muted);       /* corr. 16: gris del sitio */
   text-align: justify;       /* correcciones 15 */
   hyphens: auto;
 }
@@ -636,13 +650,27 @@ a:hover { opacity: 0.45; }
     /* arranca justo tras los datos técnicos */
     padding: 2rem 1.3rem 5rem;
   }
+  /* Imágenes COMPLETAS en móvil (correcciones 17): nada de caja 4/5
+     con cover que recortaba los laterales del render. La imagen va
+     en flujo normal, ancho completo y alto automático: se ve entera,
+     con su relación de aspecto (decisión de Paola: imagen completa
+     antes que llenar el ancho). El desktop no cambia (allí .ph img
+     sigue absoluto con cover dentro del carrete con snap). */
   .project-carousel .ph {
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: auto;            /* el alto lo pone la propia imagen */
     margin-bottom: 1.3rem;
     scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
+  .project-carousel .ph img {
+    position: static;
+    width: 100%;
+    height: auto;                  /* relación de aspecto intacta */
+  }
+  /* Los placeholders grises (proyectos aún sin fotos) son <figure>
+     vacíos: conservan el bloque 4/5 para no colapsar. */
+  .project-carousel .ph:empty { aspect-ratio: 4 / 5; }
 
   /* Tipo en itálica como en el PDF (ref. 10pt → 13px, ya heredado). */
   .page-project .project-info .project-type { font-style: italic; }
