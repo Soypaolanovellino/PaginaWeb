@@ -39,7 +39,16 @@ const IMAGES = {
     "images/nu/IMAGEN 07.jpg",
     "images/nu/IMAGEN 08.jpg"
   ],
-  "yellow-butterflies": [],
+  "yellow-butterflies": [
+    "images/yellow-butterflies/Imagen 01.jpg",
+    "images/yellow-butterflies/Imagen 02.jpg",
+    "images/yellow-butterflies/Imagen 03.jpg",
+    "images/yellow-butterflies/Imagen 04.jpg",
+    "images/yellow-butterflies/Imagen 05.jpg",
+    "images/yellow-butterflies/Imagen 06.jpg",
+    "images/yellow-butterflies/Imagen 07.jpg",
+    "images/yellow-butterflies/Imagen 08.jpg"
+  ],
   "cardinal": [
     "images/cardinal/Imagen 01.jpg",
     "images/cardinal/Imagen 02.jpg",
