@@ -201,8 +201,9 @@ a:hover { opacity: 0.45; }
 .home {
   min-height: 100dvh;
   display: flex;
+  flex-direction: column;    /* imagen y, debajo, su pie de foto */
   align-items: center;
-  justify-content: center;   /* imagen centrada bajo el header */
+  justify-content: center;   /* el conjunto centrado bajo el header */
   padding: 8rem 2rem 6rem;
   text-align: center;
 }
@@ -211,6 +212,25 @@ a:hover { opacity: 0.45; }
   width: var(--figure-w);
   aspect-ratio: var(--figure-ratio);
 }
+
+/* Pie de foto del Home: dos líneas centradas bajo el recuadro, en
+   Times y gris --muted como el resto del sitio. Cambia con cada
+   imagen (js/site.js); el fundido acompaña al crossfade. Se reserva
+   el alto de dos líneas para que el layout no salte cuando un pie
+   tiene una sola línea (crédito sin lugar). */
+.home-caption {
+  width: var(--figure-w);
+  max-width: 100%;
+  margin-top: 0.95rem;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+  min-height: calc(1.6em * 2);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.home-caption.is-visible { opacity: 1; }
+.home-caption .cap-line { display: block; }
 
 /* Home slideshow: cuando hay varias imágenes personales, se
    suceden con un fundido y un leve deslizamiento lateral (las
