@@ -55,12 +55,44 @@ function pickCover(images) {
   return explicit || images[0] || null;
 }
 
+/* Carpetas cuyos nombres de archivo llevan el pie de foto (Home).
+   El pie sale del nombre del archivo, así el runtime no parsea nada:
+   solo lee CAPTIONS. */
+const CAPTION_FOLDERS = ['home'];
+
+/* Deriva el pie de dos líneas a partir del nombre del archivo:
+     "<lugar> Photo by Paola Novellino(1).ext"
+   - Línea 1: el texto ANTES del crédito (puede quedar vacío).
+   - Línea 2: el crédito, SIEMPRE normalizado a "Photo by Paola
+     Novellino" (los nombres traen erratas: "Phoyo by", "Novelino").
+   El marcador de crédito se detecta de forma tolerante (Ph… by),
+   y se quita el sufijo de copia final "(1)"/"(2)". `hasCredit`
+   queda en false si el nombre no trae ningún "…by …" reconocible,
+   para reportarlo sin inventar el crédito. */
+const CREDIT = 'Photo by Paola Novellino';
+function captionFromName(filename) {
+  let base = filename.replace(/\.[^.]+$/, '');   // sin extensión
+  base = base.replace(/\s*\(\d+\)\s*$/, '');     // sin sufijo de copia (1)
+  const m = base.match(/^(.*?)\s*\bph[a-z]+\s+by\b.*$/i); // "…Ph..o by…"
+  const line1 = (m ? m[1] : base).replace(/\s{2,}/g, ' ').trim();
+  return { line1, line2: CREDIT, hasCredit: !!m };
+}
+
 const manifest = {};
 const covers = {};
+const captions = {};
+const captionWarnings = [];
 FOLDERS.forEach((folder) => {
   const images = listImages(folder);
   manifest[folder] = images;
   covers[folder] = pickCover(images);
+  if (CAPTION_FOLDERS.includes(folder)) {
+    images.forEach((src) => {
+      const cap = captionFromName(path.basename(src));
+      captions[src] = { line1: cap.line1, line2: cap.line2 };
+      if (!cap.hasCredit) captionWarnings.push(path.basename(src));
+    });
+  }
 });
 
 // Se informa qué hay pendiente en _sin-asignar (no entra al sitio).
@@ -72,13 +104,16 @@ const banner =
   '   NO editar a mano. Se regenera con:\n' +
   '       node scripts/build-manifest.js\n' +
   '   Lista las imágenes de cada carpeta de images/ en orden\n' +
-  '   alfabético (IMAGES) y la portada de cada proyecto (COVERS):\n' +
-  '   el archivo con "portada" en el nombre, o la 1ª si no hay.\n' +
+  '   alfabético (IMAGES), la portada de cada proyecto (COVERS):\n' +
+  '   el archivo con "portada" en el nombre, o la 1ª si no hay, y\n' +
+  '   los pies de foto del Home (CAPTIONS: ruta → {line1,line2}),\n' +
+  '   derivados del nombre del archivo.\n' +
   '   ============================================================ */\n\n';
 
 const body =
   'const IMAGES = ' + JSON.stringify(manifest, null, 2) + ';\n\n' +
-  'const COVERS = ' + JSON.stringify(covers, null, 2) + ';\n';
+  'const COVERS = ' + JSON.stringify(covers, null, 2) + ';\n\n' +
+  'const CAPTIONS = ' + JSON.stringify(captions, null, 2) + ';\n';
 
 fs.writeFileSync(OUTPUT, banner + body, 'utf8');
 
@@ -89,3 +124,7 @@ FOLDERS.forEach((f) => {
   console.log(`  ${f}: ${manifest[f].length} imagen(es)  (portada: ${cover})`);
 });
 if (pending) console.log(`  (_sin-asignar: ${pending} sin repartir — no se publican)`);
+if (captionWarnings.length) {
+  console.log('  AVISO — sin crédito "Photo by" reconocible en:');
+  captionWarnings.forEach((n) => console.log(`    · ${n}`));
+}

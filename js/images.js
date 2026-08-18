@@ -3,32 +3,25 @@
    NO editar a mano. Se regenera con:
        node scripts/build-manifest.js
    Lista las imágenes de cada carpeta de images/ en orden
-   alfabético (IMAGES) y la portada de cada proyecto (COVERS):
-   el archivo con "portada" en el nombre, o la 1ª si no hay.
+   alfabético (IMAGES), la portada de cada proyecto (COVERS):
+   el archivo con "portada" en el nombre, o la 1ª si no hay, y
+   los pies de foto del Home (CAPTIONS: ruta → {line1,line2}),
+   derivados del nombre del archivo.
    ============================================================ */
 
 const IMAGES = {
   "home": [
-    "images/home/IMG_0570.jpg",
-    "images/home/IMG_0578.jpg",
-    "images/home/IMG_1690.jpg",
-    "images/home/IMG_1693.jpg",
-    "images/home/IMG_1707.jpg",
-    "images/home/IMG_1708.jpg",
-    "images/home/IMG_1714.jpg",
-    "images/home/IMG_1716.jpg",
-    "images/home/IMG_1718.jpg",
-    "images/home/IMG_1722.jpg",
-    "images/home/IMG_1725.jpg",
-    "images/home/IMG_1730.jpg",
-    "images/home/IMG_1733.jpg",
-    "images/home/IMG_1745.jpg",
-    "images/home/IMG_1746.jpg",
-    "images/home/IMG_1750.jpg",
-    "images/home/IMG_1751.jpg",
-    "images/home/IMG_2029.jpg",
-    "images/home/IMG_2052.jpg",
-    "images/home/Tezza-8013.jpg"
+    "images/home/AVA Restaurant Mia, Fl.  Photo by Paola Novellino.jpg",
+    "images/home/AVA Restaurant Mia, Fl.  Photo by Paola Novellino(1).jpg",
+    "images/home/Ccs, Vzla. Photo by Paola Novellino.jpg",
+    "images/home/Noraneko, Ccs, Vzla. Phoyo by Paola Novellino.jpg",
+    "images/home/Palm Beach, Fl. Photo by Paola Novellino.jpg",
+    "images/home/Photo by Paola Novellino.jpg",
+    "images/home/Sala 33 Ccs, Vzla Photo by Paola Novelino.jpg",
+    "images/home/Sala 33 Ccs, Vzla Photo by Paola Novellino.jpg",
+    "images/home/Sala 33 Ccs, Vzla. Photo by Paola Novellino.jpg",
+    "images/home/Sala 33 Ccs, Vzla. Photo by Paola Novellino(1).jpg",
+    "images/home/Tributo cafe Ccs, Vzla. Photo by Paola Novellino.jpg"
   ],
   "nu": [
     "images/nu/IMAGEN 01.jpg",
@@ -79,9 +72,56 @@ const IMAGES = {
 };
 
 const COVERS = {
-  "home": "images/home/IMG_0570.jpg",
+  "home": "images/home/AVA Restaurant Mia, Fl.  Photo by Paola Novellino.jpg",
   "nu": "images/nu/IMAGEN 01.jpg",
   "yellow-butterflies": "images/yellow-butterflies/Imagen 01.jpg",
   "cardinal": "images/cardinal/Imagen 01.jpg",
   "dos-son-multitud": "images/dos-son-multitud/13-portada.jpg"
+};
+
+const CAPTIONS = {
+  "images/home/AVA Restaurant Mia, Fl.  Photo by Paola Novellino.jpg": {
+    "line1": "AVA Restaurant Mia, Fl.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/AVA Restaurant Mia, Fl.  Photo by Paola Novellino(1).jpg": {
+    "line1": "AVA Restaurant Mia, Fl.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Ccs, Vzla. Photo by Paola Novellino.jpg": {
+    "line1": "Ccs, Vzla.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Noraneko, Ccs, Vzla. Phoyo by Paola Novellino.jpg": {
+    "line1": "Noraneko, Ccs, Vzla.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Palm Beach, Fl. Photo by Paola Novellino.jpg": {
+    "line1": "Palm Beach, Fl.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Photo by Paola Novellino.jpg": {
+    "line1": "",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Sala 33 Ccs, Vzla Photo by Paola Novelino.jpg": {
+    "line1": "Sala 33 Ccs, Vzla",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Sala 33 Ccs, Vzla Photo by Paola Novellino.jpg": {
+    "line1": "Sala 33 Ccs, Vzla",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Sala 33 Ccs, Vzla. Photo by Paola Novellino.jpg": {
+    "line1": "Sala 33 Ccs, Vzla.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Sala 33 Ccs, Vzla. Photo by Paola Novellino(1).jpg": {
+    "line1": "Sala 33 Ccs, Vzla.",
+    "line2": "Photo by Paola Novellino"
+  },
+  "images/home/Tributo cafe Ccs, Vzla. Photo by Paola Novellino.jpg": {
+    "line1": "Tributo cafe Ccs, Vzla.",
+    "line2": "Photo by Paola Novellino"
+  }
 };

@@ -39,7 +39,9 @@ function hydrateImages(root) {
 
   HOME_IMAGES.forEach((src, i) => {
     const img = document.createElement('img');
-    img.src = src;
+    // Los nombres del Home llevan espacios, comas y puntos: se
+    // codifican para que la URL sea válida (encodeURI respeta "/").
+    img.src = encodeURI(src);
     img.alt = i === 0 ? 'Paola Novellino' : '';
     if (i === 0) img.classList.add('is-current'); // la primera, visible
     img.addEventListener('load', () => figure.classList.add('is-loaded'));
@@ -47,17 +49,42 @@ function hydrateImages(root) {
     imgs.push(img);
   });
 
+  /* ---------- Pie de foto (dos líneas, sale de CAPTIONS) ----------
+     Centrado bajo el recuadro; cambia EN SINCRONÍA con la imagen.
+     Si un archivo no tiene línea 1 (solo crédito), se muestra
+     únicamente la línea del crédito. */
+  const captionEl = document.getElementById('home-caption');
+  const caps = typeof CAPTIONS !== 'undefined' ? CAPTIONS : {};
+  function captionHtml(i) {
+    const c = caps[HOME_IMAGES[i]];
+    if (!c) return '';
+    const l1 = c.line1 ? '<span class="cap-line">' + c.line1 + '</span>' : '';
+    const l2 = c.line2 ? '<span class="cap-line">' + c.line2 + '</span>' : '';
+    return l1 + l2;
+  }
+  function setCaption(i) {
+    if (!captionEl) return;
+    captionEl.innerHTML = captionHtml(i);
+    captionEl.classList.add('is-visible');
+  }
+  setCaption(0); // pie inicial visible con la primera imagen
+
   // Con una sola imagen no hay carrusel; con reduced-motion tampoco
-  // se anima (queda fija la primera imagen).
+  // se anima (queda fija la primera imagen y su pie).
   if (imgs.length < 2 || reduced) return;
 
   // Carrusel automático: las imágenes van pasando solas dentro del
   // recuadro, sin botones ni controles. Cada N segundos avanza a la
   // siguiente (fundido + leve deslizamiento, definidos en el CSS).
+  // El pie hace un fundido corto y cambia junto con la imagen para
+  // que nunca quede un pie viejo con la foto nueva.
   setInterval(() => {
     imgs[current].classList.remove('is-current');
-    current = (current + 1) % imgs.length;
+    if (captionEl) captionEl.classList.remove('is-visible'); // fade out
+    const next = (current + 1) % imgs.length;
+    current = next;
     imgs[current].classList.add('is-current');
+    setTimeout(() => setCaption(next), 600); // cambia a mitad del fundido
   }, 4500);
 })();
 
