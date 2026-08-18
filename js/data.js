@@ -13,19 +13,26 @@ function folderImages(slug) {
   return (typeof IMAGES !== 'undefined' && Array.isArray(IMAGES[slug])) ? IMAGES[slug] : [];
 }
 
+/* Portada de un proyecto: la que marcó el manifiesto (archivo con
+   "portada" en el nombre) o, si no hay, la 1ª foto de la carpeta.
+   La portada conserva su posición dentro del carrete. */
+function folderCover(slug) {
+  const explicit = (typeof COVERS !== 'undefined') ? COVERS[slug] : null;
+  return explicit || folderImages(slug)[0] || null;
+}
+
 /* Imágenes personales del Home: todas las de images/home/
    (crossfade lento entre ellas si hay varias). */
 const HOME_IMAGES = folderImages('home');
 
-/* Los 6 proyectos, en el orden en que aparecen en WORK.
-   El orden sigue la secuencia de los enlaces "NEXT >" de los PDFs
-   de Paola: NU → Yellow Butterfly → Cardinal → Harmonia →
-   Allegra → Dos son Multitud.
-   `cover` e `images` se derivan del manifiesto: la PRIMERA foto
-   (orden alfabético) de la carpeta es la portada que se ve en Work,
-   y el carrete de la página del proyecto muestra TODAS las fotos de
-   la carpeta (la portada incluida, abriendo el carrete).
-   Campos opcionales: `subtitle` (p. ej. Dos son Multitud) y las
+/* Los 4 proyectos, en el orden en que aparecen en WORK:
+   NU → Yellow Butterfly → Cardinal → Dos es Multitud.
+   `cover` e `images` se derivan del manifiesto: la portada (el
+   archivo con "portada" en el nombre, o la 1ª foto si no hay) es
+   la que se ve en Work, y el carrete de la página del proyecto
+   muestra TODAS las fotos de la carpeta en orden (la portada
+   conserva su posición dentro del carrete).
+   Campos opcionales: `subtitle` (p. ej. Dos es Multitud) y las
    claves de `meta` son variables por proyecto (project.js recorre
    las entradas tal cual, no hay lista fija). */
 const PROJECTS = [
@@ -61,7 +68,7 @@ const PROJECTS = [
       Client: 'Confidential',
       'Gross area': '100 sqm',
     },
-    get cover() { return folderImages(this.slug)[0] || null; },
+    get cover() { return folderCover(this.slug); },
     get images() { return folderImages(this.slug); },
   },
   {
@@ -97,7 +104,7 @@ const PROJECTS = [
       Client: 'Confidential',
       'Gross area': '10,45 sqm',
     },
-    get cover() { return folderImages(this.slug)[0] || null; },
+    get cover() { return folderCover(this.slug); },
     get images() { return folderImages(this.slug); },
   },
   {
@@ -129,89 +136,18 @@ const PROJECTS = [
       Client: 'Confidential',
       'Gross area': '100 sqm',
     },
-    get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug); },
-  },
-  {
-    slug: 'harmonia',
-    title: 'Harmonia',
-    type: 'Workplace Interior Design',
-    tagline: 'A workplace designed to inspire focus, well-being, and meaningful collaboration.',
-    description:
-      'Harmonia is an office design project created for a health insurance company, conceived ' +
-      'as an alternative to the cold and impersonal environments often associated with ' +
-      'corporate workplaces. The goal was to create a space that promotes well-being, ' +
-      'creativity, and productivity while fostering a stronger connection between employees ' +
-      'and their daily work.\n\n' +
-      'The design is based on the idea that a workplace should support both concentration and ' +
-      'human interaction. Warm materials such as wood are combined with glass, metal, ' +
-      'textiles, and abundant vegetation to create an environment that feels welcoming, ' +
-      'organized, and inspiring. Layered textures and natural elements soften the corporate ' +
-      'atmosphere, encouraging employees to feel comfortable, motivated, and engaged ' +
-      'throughout the day.\n\n' +
-      'Drawing from both contemporary and industrial influences, the project balances ' +
-      'openness and structure. Transparent partitions encourage collaboration while ' +
-      'maintaining privacy, and the material palette introduces warmth without compromising ' +
-      'professionalism.\n\n' +
-      'The result is a workplace that prioritizes people as much as performance — a calm, ' +
-      'flexible, and human-centered environment designed to improve the everyday experience ' +
-      'of work.',
-    meta: {
-      Location: 'Av. Francisco de Miranda, Centro Plaza, Caracas, Venezuela.',
-      Year: '2026',
-      Program: 'Workplace Interior Design',
-      Status: 'Proposal / Design Development',
-      Client: 'Confidential',
-      'Gross area': '124 sqm',
-    },
-    get cover() { return folderImages(this.slug)[0] || null; },
-    get images() { return folderImages(this.slug); },
-  },
-  {
-    slug: 'allegra',
-    title: 'Allegra',
-    type: 'Residential Interior Design',
-    tagline:
-      'A vibrant home shaped by the balance between private retreat, creative expression, and joyful gathering.',
-    description:
-      'Allegra explores the idea of counterpoint: the harmonious coexistence of contrasting ' +
-      'energies within a single home. Designed for a vibrant and sociable woman, the ' +
-      'apartment moves between two essential states—private retreat and social setting.\n\n' +
-      'Calm, intimate spaces support rest and creativity, while expressive colors, ' +
-      'sculptural forms, and flexible gathering areas encourage connection and spontaneity. ' +
-      'This duality is also reflected in the material palette: warm wood meets cool metal, ' +
-      'soft textiles contrast with polished marble, and curved silhouettes balance clean ' +
-      'architectural lines.\n\n' +
-      'Retro influences are reinterpreted through a contemporary and refined perspective, ' +
-      'bringing character, playfulness, and a sense of nostalgia without overwhelming the ' +
-      'space.\n\n' +
-      'Rather than separating solitude from social life, the project allows both to coexist ' +
-      'naturally. The result is a colorful and sophisticated home where relaxation, ' +
-      'creativity, and celebration remain in constant balance.',
-    /* VERIFICAR CON PAOLA: los datos técnicos de Allegra fueron copiados de
-       Harmonia en el PDF original (Program dice "Workplace Interior Design"
-       pero Allegra es un proyecto residencial, y el área 124 sqm se repite en
-       3 proyectos). Faltan los datos reales de Allegra. */
-    meta: {
-      Location: 'Av. Francisco de Miranda, Centro Plaza, Caracas, Venezuela.',
-      Year: '2026',
-      Program: 'Workplace Interior Design',
-      Status: 'Proposal / Design Development',
-      Client: 'Confidential',
-      'Gross area': '124 sqm',
-    },
-    get cover() { return folderImages(this.slug)[0] || null; },
+    get cover() { return folderCover(this.slug); },
     get images() { return folderImages(this.slug); },
   },
   {
     slug: 'dos-son-multitud',
-    title: 'Dos son Multitud',
-    subtitle: 'two are multitude',
+    title: 'Dos es Multitud',
+    subtitle: 'two is multitude',
     type: 'Experimental Residence | Interior Design Thesis',
     tagline:
       'A house designed to interrupt automatic living and return the body to a constant state of presence.',
     description:
-      'Dos Son Multitud explores whether a home can make its inhabitants more conscious of ' +
+      'Dos es Multitud explores whether a home can make its inhabitants more conscious of ' +
       'their own existence. The project begins with the idea that contemporary life often ' +
       'places the body on autopilot, turning everyday actions into movements performed ' +
       'without attention.\n\n' +
@@ -243,7 +179,7 @@ const PROJECTS = [
       Client: 'Atelier Caracas',
       'Gross area': '124 sqm',
     },
-    get cover() { return folderImages(this.slug)[0] || null; },
+    get cover() { return folderCover(this.slug); },
     get images() { return folderImages(this.slug); },
   },
 ];
