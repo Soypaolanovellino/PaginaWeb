@@ -3,7 +3,8 @@
    NO editar a mano. Se regenera con:
        node scripts/build-manifest.js
    Lista las imágenes de cada carpeta de images/ en orden
-   alfabético. La 1ª de cada proyecto es la portada.
+   alfabético (IMAGES) y la portada de cada proyecto (COVERS):
+   el archivo con "portada" en el nombre, o la 1ª si no hay.
    ============================================================ */
 
 const IMAGES = {
@@ -36,8 +37,7 @@ const IMAGES = {
     "images/nu/IMAGEN 04.jpg",
     "images/nu/IMAGEN 05.jpg",
     "images/nu/IMAGEN 06.jpg",
-    "images/nu/IMAGEN 07.jpg",
-    "images/nu/IMAGEN 08.jpg"
+    "images/nu/IMAGEN 07.jpg"
   ],
   "yellow-butterflies": [
     "images/yellow-butterflies/Imagen 01.jpg",
@@ -53,17 +53,35 @@ const IMAGES = {
     "images/cardinal/Imagen 01.jpg",
     "images/cardinal/Imagen 02.jpg",
     "images/cardinal/Imagen 03.jpg",
-    "images/cardinal/Imagen 04.jpg",
-    "images/cardinal/Imagen 05.jpg",
     "images/cardinal/Imagen 06.jpg",
     "images/cardinal/Imagen 07.jpg",
     "images/cardinal/Imagen 08.jpg",
-    "images/cardinal/Imagen 09.jpg",
-    "images/cardinal/Imagen 10.jpg",
-    "images/cardinal/Imagen 11.jpg",
-    "images/cardinal/Imagen 12.jpg"
+    "images/cardinal/Imagen 09.jpg"
   ],
-  "harmonia": [],
-  "allegra": [],
-  "dos-son-multitud": []
+  "dos-son-multitud": [
+    "images/dos-son-multitud/01.jpg",
+    "images/dos-son-multitud/02.jpg",
+    "images/dos-son-multitud/03.jpg",
+    "images/dos-son-multitud/04.jpg",
+    "images/dos-son-multitud/05.jpg",
+    "images/dos-son-multitud/06.jpg",
+    "images/dos-son-multitud/07.jpg",
+    "images/dos-son-multitud/08.jpg",
+    "images/dos-son-multitud/09.jpg",
+    "images/dos-son-multitud/10.jpg",
+    "images/dos-son-multitud/11.jpg",
+    "images/dos-son-multitud/12.jpg",
+    "images/dos-son-multitud/13-portada.jpg",
+    "images/dos-son-multitud/14.jpg",
+    "images/dos-son-multitud/15.jpg",
+    "images/dos-son-multitud/16.jpg"
+  ]
+};
+
+const COVERS = {
+  "home": "images/home/IMG_0570.jpg",
+  "nu": "images/nu/IMAGEN 01.jpg",
+  "yellow-butterflies": "images/yellow-butterflies/Imagen 01.jpg",
+  "cardinal": "images/cardinal/Imagen 01.jpg",
+  "dos-son-multitud": "images/dos-son-multitud/13-portada.jpg"
 };

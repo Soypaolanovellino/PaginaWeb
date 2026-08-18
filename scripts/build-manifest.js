@@ -24,8 +24,6 @@ const FOLDERS = [
   'nu',
   'yellow-butterflies', // el proyecto se llama "Yellow Butterfly"; slug histórico
   'cardinal',
-  'harmonia',
-  'allegra',
   'dos-son-multitud',
 ];
 
@@ -47,9 +45,22 @@ function listImages(folder) {
     .map((name) => `images/${folder}/${name}`);
 }
 
+/* Portada del proyecto (la foto que se ve en Work). Regla:
+   - Si algún archivo tiene "portada" en el nombre, esa es la portada
+     (aunque conserve su posición numérica dentro del carrete).
+   - Si ninguno la tiene, la portada es la 1ª foto (comportamiento
+     histórico). Devuelve null si la carpeta está vacía. */
+function pickCover(images) {
+  const explicit = images.find((src) => /portada/i.test(path.basename(src)));
+  return explicit || images[0] || null;
+}
+
 const manifest = {};
+const covers = {};
 FOLDERS.forEach((folder) => {
-  manifest[folder] = listImages(folder);
+  const images = listImages(folder);
+  manifest[folder] = images;
+  covers[folder] = pickCover(images);
 });
 
 // Se informa qué hay pendiente en _sin-asignar (no entra al sitio).
@@ -61,14 +72,20 @@ const banner =
   '   NO editar a mano. Se regenera con:\n' +
   '       node scripts/build-manifest.js\n' +
   '   Lista las imágenes de cada carpeta de images/ en orden\n' +
-  '   alfabético. La 1ª de cada proyecto es la portada.\n' +
+  '   alfabético (IMAGES) y la portada de cada proyecto (COVERS):\n' +
+  '   el archivo con "portada" en el nombre, o la 1ª si no hay.\n' +
   '   ============================================================ */\n\n';
 
-const body = 'const IMAGES = ' + JSON.stringify(manifest, null, 2) + ';\n';
+const body =
+  'const IMAGES = ' + JSON.stringify(manifest, null, 2) + ';\n\n' +
+  'const COVERS = ' + JSON.stringify(covers, null, 2) + ';\n';
 
 fs.writeFileSync(OUTPUT, banner + body, 'utf8');
 
 // Resumen legible en consola.
 console.log('Manifiesto escrito en js/images.js');
-FOLDERS.forEach((f) => console.log(`  ${f}: ${manifest[f].length} imagen(es)`));
+FOLDERS.forEach((f) => {
+  const cover = covers[f] ? path.basename(covers[f]) : '—';
+  console.log(`  ${f}: ${manifest[f].length} imagen(es)  (portada: ${cover})`);
+});
 if (pending) console.log(`  (_sin-asignar: ${pending} sin repartir — no se publican)`);

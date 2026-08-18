@@ -38,7 +38,7 @@
 
   /* ---------- Piezas de contenido (comunes a ambos layouts) ----------
      `meta` admite campos variables por proyecto (se recorren las
-     entradas tal cual, sin lista fija): p. ej. Dos son Multitud
+     entradas tal cual, sin lista fija): p. ej. Dos es Multitud
      añade "Institution". */
   const titleHtml = '<h1>' + project.title + '</h1>';
   const subtitleHtml = project.subtitle
