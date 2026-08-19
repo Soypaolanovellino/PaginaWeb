@@ -264,11 +264,11 @@ a:hover { opacity: 0.45; }
   font-size: 13px;   /* Times, ref. 16 pt */
   line-height: 1.9;
   color: var(--muted);   /* corr. 16: gris del sitio */
-  /* Justificada (corr. 15, decisión de Paola: "justificar todo";
-     antes iba centrada con el resto del bloque del About — los
-     contactos de abajo, de una línea, siguen centrados). */
-  text-align: justify;
-  hyphens: auto;
+  /* Centrada (corr. 19 ad.2): en líneas tan cortas el justify de la
+     corr. 15 se veía como alineado a la izquierda. Se centra la bio
+     como el bloque de contactos; el justify global del resto del
+     sitio NO se toca. */
+  text-align: center;
 }
 
 .about-contact {
