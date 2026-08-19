@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "node scripts/dev-server.js",
     "manifest": "node scripts/build-manifest.js",
-    "optimize": "node scripts/optimize-images.js"
+    "optimize": "node scripts/optimize-images.js",
+    "favicon": "node scripts/build-favicon.js"
   },
   "devDependencies": {
+    "opentype.js": "^2.0.0",
     "sharp": "^0.33.5"
   }
 }
