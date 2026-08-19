@@ -49,7 +49,8 @@ const IMAGES = {
     "images/cardinal/Imagen 06.jpg",
     "images/cardinal/Imagen 07.jpg",
     "images/cardinal/Imagen 08.jpg",
-    "images/cardinal/Imagen 09.jpg"
+    "images/cardinal/Imagen 09.jpg",
+    "images/cardinal/PORTADA.jpg"
   ],
   "dos-son-multitud": [
     "images/dos-son-multitud/01.jpg",
@@ -75,7 +76,7 @@ const COVERS = {
   "home": "images/home/AVA Restaurant Mia, Fl.  Photo by Paola Novellino.jpg",
   "nu": "images/nu/IMAGEN 01.jpg",
   "yellow-butterflies": "images/yellow-butterflies/Imagen 01.jpg",
-  "cardinal": "images/cardinal/Imagen 01.jpg",
+  "cardinal": "images/cardinal/PORTADA.jpg",
   "dos-son-multitud": "images/dos-son-multitud/13-portada.jpg"
 };
 
