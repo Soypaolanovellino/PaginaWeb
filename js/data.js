@@ -156,7 +156,7 @@ const PROJECTS = [
       'interrupt routine and restore awareness. Entering, walking, eating, bathing, and ' +
       'resting become deliberate experiences that demand attention from both the body and ' +
       'the mind.\n\n' +
-      'Conceived for Ana Beido and David Cronenberg, the residence brings together two ' +
+      'Conceived for Nanda Vigo and David Cronenberg, the residence brings together two ' +
       'contrasting creative sensibilities within a single domestic environment. Their ' +
       'coexistence shapes a house that is intimate yet unsettling, protective yet demanding, ' +
       'and familiar while never becoming entirely predictable.\n\n' +
